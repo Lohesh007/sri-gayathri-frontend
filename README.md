@@ -1,70 +1,217 @@
-# Getting Started with Create React App
+🛍️ Sri Gayathri Fancy & Religious – Full-Stack eCommerce Website
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A complete full-stack eCommerce platform built for the Sri Gayathri Fancy & Religious Store in Velankanni, Tamil Nadu.
+This project includes product browsing, categories, cart, checkout, authentication, admin dashboard, image uploads, orders, payments, and mobile-friendly UI.
 
-## Available Scripts
+This is a full MERN stack application:
 
-In the project directory, you can run:
+Frontend: React + Netlify Hosting
 
-### `npm start`
+Backend: Node.js + Express + MongoDB + Render Hosting
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Payments: Razorpay
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Email Services: Nodemailer (Gmail)
 
-### `npm test`
+Authentication: JWT + Email Verification + Password Reset
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+🌐 Live Demo
+Frontend (Netlify):
 
-### `npm run build`
+🔗 https://your-frontend-name.netlify.app
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Backend API (Render):
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+🔗 https://your-backend-name.onrender.com
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+📌 Features
+🛒 Customer Features
 
-### `npm run eject`
+Browse products by categories & subcategories
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+View product details
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Add items to cart
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Checkout & place orders
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Razorpay online payment
 
-## Learn More
+View order history
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Edit profile
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Forgot password (email reset link)
 
-### Code Splitting
+Email verification during signup
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Fully mobile responsive
 
-### Analyzing the Bundle Size
+🔐 Authentication Features
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Register user with verification email
 
-### Making a Progressive Web App
+Login using email or mobile number
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+JWT-based auth
 
-### Advanced Configuration
+Update profile info
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Password reset using email link
 
-### Deployment
+🛠️ Admin Features
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Admins are auto-recognized based on email + mobile combination.
 
-### `npm run build` fails to minify
+Admin panel includes:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Add new products
+
+Edit/delete existing products
+
+Upload images to Cloudinary
+
+View all orders
+
+Change order status
+
+Filter/search products quickly
+
+🏗️ Full Project Structure
+project-root/
+│
+├── backend/
+│   ├── config/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
+│   ├── utils/
+│   ├── .gitignore
+│   ├── package.json
+│   ├── server.js
+│   └── README.md (optional)
+│
+└── frontend/
+    ├── public/
+    ├── src/
+    │   ├── assets/
+    │   ├── components/
+    │   ├── context/
+    │   ├── pages/
+    │   ├── styles/
+    │   ├── App.js
+    │   └── index.js
+    ├── .gitignore
+    ├── package.json
+    ├── netlify.toml (optional)
+    └── README.md (optional)
+
+⚙️ Technologies Used
+Frontend
+
+React.js
+
+React Router
+
+Context API
+
+Axios
+
+Toastify
+
+Netlify hosting
+
+Backend
+
+Node.js
+
+Express.js
+
+MongoDB (Atlas)
+
+Mongoose
+
+JWT
+
+Nodemailer
+
+Render hosting
+
+Other Services
+
+Cloudinary – image uploads
+
+Razorpay – payment integration
+
+🚀 How to Run Locally
+1️⃣ Clone the repository
+git clone https://github.com/YOUR_USERNAME/sri-gayathri-frontend.git
+git clone https://github.com/YOUR_USERNAME/sri-gayathri-backend.git
+
+🖥️ FRONTEND SETUP
+cd frontend
+npm install
+npm start
+
+🛢️ BACKEND SETUP
+cd backend
+npm install
+
+
+Create a file named .env inside backend/:
+
+MONGO_URI=your_mongo_atlas_url
+JWT_SECRET=your_secret_key
+
+EMAIL_USER=your_gmail
+EMAIL_PASS=your_app_password
+
+CLOUDINARY_CLOUD=xxxx
+CLOUDINARY_KEY=xxxx
+CLOUDINARY_SECRET=xxxx
+
+RAZORPAY_KEY_ID=xxxx
+RAZORPAY_KEY_SECRET=xxxx
+
+FRONTEND_URL=http://localhost:3000
+
+
+Then run:
+
+npm start
+
+🔄 Deployment Guide
+Frontend (Netlify)
+
+npm run build
+
+Upload build/ folder to Netlify
+
+Set custom domain (optional)
+
+Backend (Render)
+
+Create new Web Service
+
+Connect GitHub backend repo
+
+Add environment variables (from .env)
+
+Set start command:
+
+node server.js
+
+
+Deploy
+
+
+
+🧑‍💻 Developer
+
+Loheshwaran P
+Computer Science and Engineering,
+Government college of engineering,Dharmapuri
+Tamil Nadu, India
+
+GitHub: https://github.com/Lohesh007
