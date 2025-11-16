@@ -1,0 +1,114 @@
+/* MAIN NAVBAR */
+.navbar {
+  width: 100%;
+  background: linear-gradient(90deg, #6a0dad, #8b24d4);
+  padding: 12px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* LOGO + TITLE */
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+}
+
+.nav-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffd86b;
+}
+
+/* DESKTOP MENU */
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 25px;
+  align-items: center;
+  transition: 0.3s ease-in-out;
+}
+
+.nav-links li a {
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.nav-links li a:hover {
+  color: #ffd86b;
+}
+
+/* LOGOUT BUTTON */
+.logout-btn {
+  background: #ffd86b;
+  color: #4a0072;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.logout-btn:hover {
+  background: white;
+  color: #6a0dad;
+}
+
+/* HAMBURGER ICON - Hidden in desktop */
+.hamburger {
+  display: none;
+  font-size: 30px;
+  cursor: pointer;
+  padding-right: 10px;
+  color: white;
+}
+
+/* ------------------------------------------------
+   RESPONSIVE MOBILE MENU
+------------------------------------------------ */
+
+@media (max-width: 850px) {
+  .hamburger {
+    display: block;
+  }
+
+  /* Hide menu by default */
+  .nav-links {
+    position: absolute;
+    top: 80px;
+    right: 0;
+    width: 100%;
+    background: #6a0dad;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 0;
+    display: none;
+  }
+
+  /* Open menu */
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-links li a {
+    font-size: 18px;
+  }
+
+  .logout-btn {
+    width: 85%;
+    margin: auto;
+    padding: 10px;
+  }
+}

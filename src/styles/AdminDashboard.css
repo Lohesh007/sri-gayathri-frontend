@@ -1,0 +1,129 @@
+/* ----------------------------------------------------
+   MAIN ADMIN LAYOUT
+---------------------------------------------------- */
+.admin-dashboard {
+  padding: 20px;
+  background: linear-gradient(to bottom right, #5a189a, #7b2cbf, #b388eb);
+  min-height: 100vh;
+  color: white;
+}
+
+.admin-header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.admin-header h1 {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.admin-content {
+  display: flex;
+  gap: 20px;
+}
+
+/* LEFT FORM */
+.admin-form-box {
+  width: 35%;
+  background: #fff;
+  padding: 20px;
+  border-radius: 16px;
+  color: #4b0082;
+}
+
+.admin-form-box input,
+.admin-form-box select,
+.admin-form-box textarea {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #d0bfff;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.preview-img {
+  width: 140px;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+
+.btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+}
+
+.btn.purple {
+  background: #7b2cbf;
+  color: white;
+}
+.btn.purple:hover {
+  background: #5a189a;
+}
+
+.btn.red {
+  background: #d00000;
+  color: white;
+}
+
+.btn.gray {
+  background: #7e7e7e;
+  color: white;
+}
+
+/* RIGHT PRODUCT LIST PANEL */
+.admin-product-list {
+  width: 65%;
+}
+
+.admin-filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.search-bar {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  border: 2px solid #d0bfff;
+}
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 15px;
+}
+
+.admin-card {
+  background: #fff;
+  padding: 15px;
+  border-radius: 14px;
+  text-align: center;
+  color: #4b0082;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.admin-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.btn.small {
+  padding: 8px;
+  font-size: 14px;
+}

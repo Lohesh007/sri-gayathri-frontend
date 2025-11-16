@@ -1,0 +1,30 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Full height layout */
+html, body, #root {
+  height: 100%;
+  width: 100%;
+}
+
+/* Make body a flex column */
+body {
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* ⭐ Pushes footer to bottom */
+.page-content {
+  flex: 1;
+  min-height: calc(100vh - 120px); /* NAVBAR + FOOTER space */
+}
+
+/* Footer never grows or moves */
+footer {
+  flex-shrink: 0;
+}

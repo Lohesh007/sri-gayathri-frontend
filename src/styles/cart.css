@@ -1,0 +1,309 @@
+/* CART PAGE BASE */
+.cart-container {
+  width: 90%;
+  margin: auto;
+  padding: 30px 0;
+  font-family: "Poppins", sans-serif;
+  color: #30004f;
+}
+
+/* TITLE */
+.cart-title {
+  font-size: 32px;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #5e0099;
+  font-weight: 700;
+}
+
+/* EMPTY CART */
+.empty-cart {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.gold-btn {
+  padding: 12px 22px;
+  background: #D4AF37;
+  color: #30004f;
+  border: none;
+  border-radius: 30px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 15px;
+  box-shadow: 0 4px 12px rgba(212,175,55,0.4);
+}
+.gold-btn:hover {
+  background: #b89730;
+}
+
+/* CART ITEM */
+.cart-item {
+  display: flex;
+  gap: 20px;
+  background: white;
+  padding: 18px;
+  margin-bottom: 18px;
+  border-radius: 14px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+}
+
+.cart-item img {
+  width: 130px;
+  height: 130px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.cart-details {
+  flex: 1;
+}
+
+.item-price {
+  font-size: 18px;
+  font-weight: bold;
+  color: #5e0099;
+}
+
+/* QUANTITY BOX */
+.qty-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.qty-box button {
+  background: #5e0099;
+  color: white;
+  border: none;
+  padding: 5px 12px;
+  font-size: 18px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.qty-box span {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* REMOVE BUTTON */
+.remove-btn {
+  background: crimson;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  margin-top: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.remove-btn:hover {
+  background: #b00020;
+}
+
+/* SUMMARY BOX */
+.summary-box {
+  padding: 20px;
+  border-radius: 14px;
+  background: #f5eaff;
+  border-left: 5px solid #5e0099;
+  margin-top: 30px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+}
+
+.summary-box h2 {
+  margin-bottom: 15px;
+}
+
+/* CONFIRMATION POPUP */
+.confirm-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.confirm-box {
+  background: white;
+  padding: 25px;
+  width: 90%;
+  max-width: 420px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 12px 35px rgba(0,0,0,0.3);
+}
+
+.confirm-details p {
+  margin: 8px 0;
+}
+
+.confirm-actions {
+  margin-top: 20px;
+}
+
+.cancel-btn {
+  padding: 10px 18px;
+  background: #ccc;
+  border: none;
+  border-radius: 8px;
+  margin-left: 12px;
+  cursor: pointer;
+}
+.cancel-btn:hover {
+  background: #bbb;
+}
+/* =============================
+   CONFIRMATION POPUP (PREMIUM)
+   ============================= */
+
+.confirm-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.confirm-box {
+  background: rgba(255, 255, 255, 0.92);
+  width: 90%;
+  max-width: 480px;
+  padding: 28px;
+  border-radius: 18px;
+  text-align: center;
+  border: 3px solid rgba(212, 175, 55, 0.5);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+  animation: fadeIn 0.3s linear;
+}
+
+/* Popup Title */
+.confirm-title {
+  font-size: 26px;
+  font-weight: 800;
+  background: linear-gradient(90deg, #5e0099, #9934e8);
+  background-clip: text;          /* Standard version */
+-webkit-background-clip: text;  /* Safari + Chrome */
+color: transparent;   
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 18px;
+}
+
+/* Total */
+.confirm-total {
+  margin-top: 12px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #4a0072;
+}
+
+.confirm-total span {
+  color: #D4AF37;
+  font-size: 24px;
+}
+
+/* Info Display */
+.confirm-info {
+  text-align: left;
+  padding: 12px;
+  margin: 12px 0;
+  border-radius: 10px;
+  background: #faf0ff;
+  border-left: 4px solid #9934e8;
+}
+
+.confirm-info p {
+  margin: 6px 0;
+  font-size: 16px;
+}
+
+/* Buttons section */
+.confirm-actions {
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* Gold Button (Main CTA) */
+.gold-btn.large {
+  padding: 14px 28px;
+  font-size: 18px;
+  border-radius: 30px;
+  background: linear-gradient(90deg, #FFD700, #D4AF37);
+  color: #30004f;
+  font-weight: 700;
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.45);
+}
+.gold-btn.large:hover {
+  background: #b69320;
+}
+
+/* Purple Button */
+.purple-btn {
+  padding: 12px 20px;
+  border-radius: 30px;
+  background: linear-gradient(90deg, #5e00aa, #8a24d4);
+  color: white;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(90, 0, 150, 0.3);
+}
+.purple-btn:hover {
+  background: #4a0080;
+}
+
+/* Cancel Button */
+.cancel-btn {
+  padding: 10px 20px;
+  border-radius: 25px;
+  background: #ccc;
+  color: black;
+  font-weight: 600;
+  border: none;
+}
+.cancel-btn:hover {
+  background: #bbb;
+}
+
+/* Edit Mode Inputs */
+.edit-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #5e0099;
+  margin-bottom: 12px;
+}
+
+.edit-input,
+.edit-textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  border: 2px solid #c9a9ff;
+  font-size: 16px;
+}
+
+.edit-input:focus,
+.edit-textarea:focus {
+  border-color: #5e0099;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
