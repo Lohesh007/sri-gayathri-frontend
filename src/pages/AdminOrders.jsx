@@ -1,12 +1,13 @@
-// src/pages/AdminOrders.jsx
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useCallback } from "react";
 import API from "../api";
 import { AuthContext } from "../context/AuthContext";
+import { ModalContext } from "../context/ModalContext";
 import { useNavigate } from "react-router-dom";
 import "../styles/admin-orders.css";
 
 export default function AdminOrders() {
   const { user } = useContext(AuthContext);
+  const { showAlert, showConfirm } = useContext(ModalContext);
   const navigate = useNavigate();
 
   const [orders, setOrders] = useState([]);
@@ -15,28 +16,37 @@ export default function AdminOrders() {
   const [loading, setLoading] = useState(true);
   const [savingId, setSavingId] = useState(null);
 
-  // Redirect if NOT admin
-  useEffect(() => {
-    if (!user) return navigate("/login");
-    if (!user.isAdmin) {
-      alert("Access Denied — Admin Only");
-      return navigate("/");
-    }
-    fetchOrders();
-  }, [user]);
-
-  const fetchOrders = async () => {
+  const fetchOrders = useCallback(async () => {
     try {
       setLoading(true);
       const res = await API.get("/orders/all");
       setOrders(res.data || []);
     } catch (err) {
-      alert("Failed to load orders");
+      showAlert({
+        title: "Load Error",
+        message: "Failed to load orders.",
+        type: "error"
+      });
       console.error(err);
     } finally {
       setLoading(false);
     }
-  };
+  }, [showAlert]);
+
+  // Redirect if NOT admin
+  useEffect(() => {
+    if (!user) return navigate("/login");
+    if (!user.isAdmin) {
+      showAlert({
+        title: "Access Denied",
+        message: "Access Denied — Admin Only",
+        type: "error",
+        onConfirm: () => navigate("/")
+      });
+      return;
+    }
+    fetchOrders();
+  }, [user, navigate, showAlert, fetchOrders]);
 
   const updateStatus = async (orderId, status) => {
     try {
@@ -45,11 +55,32 @@ export default function AdminOrders() {
       setOrders((prev) =>
         prev.map((o) => (o._id === orderId ? { ...o, status } : o))
       );
+      showAlert({
+        title: "Success",
+        message: "Order status updated successfully!",
+        type: "success"
+      });
     } catch (err) {
-      alert("Failed to update status");
+      showAlert({
+        title: "Update Error",
+        message: "Failed to update order status.",
+        type: "error"
+      });
     } finally {
       setSavingId(null);
     }
+  };
+
+  const handleStatusChange = (orderId, newStatus, currentStatus) => {
+    showConfirm({
+      title: "Update Status",
+      message: `Are you sure you want to change this order status from "${currentStatus}" to "${newStatus}"?`,
+      type: "warning",
+      confirmText: "Yes, Update",
+      onConfirm: () => {
+        updateStatus(orderId, newStatus);
+      }
+    });
   };
 
   const filtered = orders.filter((o) => {
@@ -122,6 +153,11 @@ export default function AdminOrders() {
                     <b>{o.customerName}</b>
                     <div className="small">{o.mobile}</div>
                     <div className="small">{o.address}</div>
+                    {o.deliveryInstructions && (
+                      <div className="admin-order-instruction-box">
+                        📝 <i>"{o.deliveryInstructions}"</i>
+                      </div>
+                    )}
                   </td>
 
                   <td>₹{o.totalAmount}</td>
@@ -144,13 +180,13 @@ export default function AdminOrders() {
                     </div>
                   </td>
 
-                  <td>{new Date(o.createdAt).toLocaleString()}</td>
+                  <td>{new Date(o.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</td>
 
                   <td>
                     <select
-                      defaultValue={o.status}
+                      value={o.status}
                       disabled={savingId === o._id}
-                      onChange={(e) => updateStatus(o._id, e.target.value)}
+                      onChange={(e) => handleStatusChange(o._id, e.target.value, o.status)}
                     >
                       <option>Pending</option>
                       <option>Processing</option>

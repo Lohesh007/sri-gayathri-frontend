@@ -1,13 +1,16 @@
 // src/pages/Login.jsx
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { ModalContext } from "../context/ModalContext";
 import API from "../api";
 import "../styles/Auth.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { login } = useContext(AuthContext);
+  const { showAlert } = useContext(ModalContext);
 
   const [form, setForm] = useState({
     credential: "",
@@ -16,6 +19,20 @@ const Login = () => {
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.get("expired") === "true") {
+      showAlert({
+        title: "Session Expired",
+        message: "Your session has expired. Please log in again.",
+        type: "warning"
+      });
+      navigate("/login", { replace: true });
+    }
+  }, [location, showAlert, navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -36,10 +53,10 @@ const Login = () => {
         return;
       }
 
-      login(res.data.user, res.data.token);
+      login(res.data.user, res.data.token, rememberMe);
       navigate("/");
     } catch (err) {
-      setMessage(err.response?.data?.message || "Login failed. Try again.");
+      setMessage(err.response?.data?.message || "Invalid credentials. Try again.");
     } finally {
       setLoading(false);
     }
@@ -55,25 +72,49 @@ const Login = () => {
         {message && <p className="auth-message">{message}</p>}
 
         <form onSubmit={handleLogin} className="auth-form">
-          <input
-            type="text"
-            placeholder="Email or Mobile Number"
-            value={form.credential}
-            onChange={(e) =>
-              setForm({ ...form, credential: e.target.value })
-            }
-            className="auth-input"
-          />
+          <div className="input-group">
+            <input
+              type="text"
+              placeholder="Email or Mobile Number"
+              value={form.credential}
+              onChange={(e) =>
+                setForm({ ...form, credential: e.target.value })
+              }
+              className="auth-input"
+              required
+            />
+          </div>
 
-          <input
-            type="password"
-            placeholder="Password"
-            value={form.password}
-            onChange={(e) =>
-              setForm({ ...form, password: e.target.value })
-            }
-            className="auth-input"
-          />
+          <div className="input-group password-group">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              value={form.password}
+              onChange={(e) =>
+                setForm({ ...form, password: e.target.value })
+              }
+              className="auth-input password"
+              required
+            />
+            <button
+              type="button"
+              className="password-toggle-btn"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? "🙈" : "👁️"}
+            </button>
+          </div>
+
+          <div className="auth-extras-row">
+            <label className="remember-me-label">
+              <input
+                type="checkbox"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+              />
+              Remember Me
+            </label>
+          </div>
 
           <button className="auth-btn" disabled={loading}>
             {loading ? "Please Wait..." : "Login"}

@@ -19,6 +19,7 @@ import VerifyEmail from "./pages/VerifyEmail";
 import Profile from "./pages/Profile";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -37,16 +38,16 @@ function App() {
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/orders" element={<Orders />} />
+          <Route path="/cart" element={<ProtectedRoute userOnly={true}><Cart /></ProtectedRoute>} />
+          <Route path="/orders" element={<ProtectedRoute userOnly={true}><Orders /></ProtectedRoute>} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset/:token" element={<ResetPassword />} />
           <Route path="/verify-email/:token" element={<VerifyEmail />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/admin/orders" element={<AdminOrders />} />
+          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+          <Route path="/admin" element={<ProtectedRoute adminOnly={true}><Admin /></ProtectedRoute>} />
+          <Route path="/admin/orders" element={<ProtectedRoute adminOnly={true}><AdminOrders /></ProtectedRoute>} />
 
         </Routes>
       </div>

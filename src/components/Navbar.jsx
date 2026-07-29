@@ -1,18 +1,57 @@
 // src/components/Navbar.jsx
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { ModalContext } from "../context/ModalContext";
+import API from "../api";
 import "../styles/Navbar.css";
 import logo from "../assets/logo.png";
 
 const Navbar = () => {
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout, cartCount } = useContext(AuthContext);
+  const { showConfirm } = useContext(ModalContext);
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [allProducts, setAllProducts] = useState([]);
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        const res = await API.get("/products");
+        setAllProducts(res.data || []);
+      } catch (err) {
+        console.error("Load navbar search products failed:", err);
+      }
+    };
+    loadProducts();
+  }, []);
+
+  const handleSearchChange = (val) => {
+    setSearchQuery(val);
+    if (!val.trim()) {
+      setSuggestions([]);
+      return;
+    }
+    const filtered = allProducts.filter((p) =>
+      p.name.toLowerCase().includes(val.toLowerCase())
+    ).slice(0, 5);
+    setSuggestions(filtered);
+  };
 
   const handleLogout = () => {
-    logout();
-    navigate("/login");
+    showConfirm({
+      title: "Confirm Logout",
+      message: "Are you sure you want to log out?",
+      type: "warning",
+      confirmText: "Yes, Logout",
+      onConfirm: () => {
+        logout();
+        navigate("/login");
+      }
+    });
   };
 
   return (
@@ -22,6 +61,35 @@ const Navbar = () => {
       <div className="nav-left">
         <img src={logo} alt="Logo" className="nav-logo" />
         <h2 className="nav-title">Sri Gayathri Fancy & Religious</h2>
+      </div>
+
+      {/* SEARCH BAR WITH AUTO-COMPLETE */}
+      <div className="nav-search-container">
+        <input
+          type="text"
+          placeholder="Search products..."
+          value={searchQuery}
+          onChange={(e) => handleSearchChange(e.target.value)}
+          onFocus={() => setShowSuggestions(true)}
+          onBlur={() => setTimeout(() => setShowSuggestions(false), 250)}
+        />
+        {showSuggestions && suggestions.length > 0 && (
+          <div className="search-suggestions-dropdown">
+            {suggestions.map((p) => (
+              <div
+                key={p._id}
+                className="suggestion-item"
+                onClick={() => {
+                  navigate(`/product/${p._id}`);
+                  setSearchQuery("");
+                }}
+              >
+                <img src={p.image} alt={p.name} />
+                <span>{p.name}</span>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* HAMBURGER ICON - mobile */}
@@ -43,7 +111,11 @@ const Navbar = () => {
           <>
             {!user.isAdmin && (
               <>
-                <li><Link to="/cart" onClick={() => setMenuOpen(false)}>Cart</Link></li>
+                <li>
+                  <Link to="/cart" onClick={() => setMenuOpen(false)}>
+                    Cart {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
+                  </Link>
+                </li>
                 <li><Link to="/orders" onClick={() => setMenuOpen(false)}>Orders</Link></li>
               </>
             )}

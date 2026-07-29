@@ -127,3 +127,128 @@
   padding: 8px;
   font-size: 14px;
 }
+
+/* ======================================================
+   MOBILE RESPONSIVENESS (PHASE 4 UI FIXES)
+   ====================================================== */
+@media (max-width: 850px) {
+  .admin-content {
+    flex-direction: column;
+  }
+  .admin-form-box {
+    width: 100%;
+  }
+  .admin-product-list {
+    width: 100%;
+  }
+  .admin-filters {
+    flex-direction: column;
+  }
+}
+
+/* ======================================================
+   ADMIN DASHBOARD FIELD LABELS & ROW UPGRADES
+   ====================================================== */
+.form-box-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #5e0099;
+  border-bottom: 2px solid #faf5ff;
+  padding-bottom: 12px;
+  margin-bottom: 18px;
+}
+
+.admin-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 12px;
+  text-align: left;
+}
+
+.admin-field-label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #5e0099;
+}
+
+.admin-form-field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.admin-form-box input,
+.admin-form-box select,
+.admin-form-box textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid #d0bfff;
+  border-radius: 10px;
+  outline: none;
+  font-size: 14.5px;
+  background: white;
+  transition: all 0.25s ease;
+  margin-bottom: 0 !important; /* Managed by admin-form-field spacing */
+}
+
+.admin-form-box input:focus,
+.admin-form-box select:focus,
+.admin-form-box textarea:focus {
+  border-color: #9b51e0;
+  box-shadow: 0 0 8px rgba(155, 81, 224, 0.25);
+}
+
+.file-input {
+  border: 2px dashed #d0bfff !important;
+  background: #faf8ff !important;
+  cursor: pointer;
+}
+
+.file-help-text {
+  font-size: 11px;
+  color: #888;
+  margin-top: 2px;
+}
+
+.preview-container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 10px;
+  align-items: flex-start;
+}
+
+.admin-form-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.admin-form-actions button {
+  margin: 0 !important;
+}
+
+.admin-mrp-strike {
+  text-decoration: line-through;
+  color: #888;
+  font-size: 12.5px;
+  margin-left: 5px;
+}
+
+.admin-stock-display {
+  font-size: 13px;
+  margin-top: 4px;
+  color: #444;
+}
+
+.admin-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+}

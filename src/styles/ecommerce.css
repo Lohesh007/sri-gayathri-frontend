@@ -291,3 +291,238 @@
   background: linear-gradient(90deg, #5e00bb, #852dd1);
   transform: translateY(-2px);
 }
+
+/* ======================================================
+   STOREFRONT STOCK BADGES (PHASE 4 UI FIXES)
+   ====================================================== */
+.out-of-stock-badge {
+  display: inline-block;
+  margin-top: 8px;
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.low-stock-badge {
+  display: inline-block;
+  margin-top: 8px;
+  background-color: #fff9c4;
+  color: #f57f17;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ======================================================
+   SEARCH AND SORT BAR LAYOUT
+   ====================================================== */
+.search-sort-bar {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  margin-top: 15px;
+  margin-bottom: 25px;
+}
+
+.search-sort-bar .search-input {
+  margin: 0;
+  flex: 3;
+}
+
+.sort-container {
+  flex: 1;
+  min-width: 180px;
+}
+
+.sort-select {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: 2px solid rgba(138,43,226,0.5);
+  background: white;
+  color: #30004f;
+  font-weight: 600;
+  font-size: 15px;
+  outline: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.sort-select:hover,
+.sort-select:focus {
+  border-color: #D4AF37;
+  box-shadow: 0 0 10px rgba(212,175,55,0.2);
+}
+
+/* ======================================================
+   CATEGORIES HORIZONTAL SCROLL PILLS
+   ====================================================== */
+.categories-pills-wrapper,
+.subcategory-pills-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  margin-bottom: 18px;
+  scrollbar-width: none; /* Hide standard Firefox scrollbars */
+}
+
+.categories-pills-wrapper::-webkit-scrollbar,
+.subcategory-pills-wrapper::-webkit-scrollbar {
+  display: none; /* Hide Chrome/Safari scrollbars */
+}
+
+.categories-pills-container,
+.subcategory-pills-container {
+  display: flex;
+  gap: 10px;
+  padding: 4px 2px;
+  white-space: nowrap;
+}
+
+.category-pill {
+  padding: 10px 20px;
+  border: 1px solid #e1ccff;
+  background: white;
+  color: #5e0099;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 14.5px;
+  transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.category-pill:hover {
+  border-color: #D4AF37;
+  transform: translateY(-1px);
+}
+
+.category-pill.active {
+  background: linear-gradient(135deg, #6a0dad, #8b24d4);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(106, 13, 173, 0.25);
+}
+
+/* Subcategory Pills styles */
+.subcategory-pill {
+  padding: 8px 16px;
+  border: 1px solid #eee;
+  background: #fdfbff;
+  color: #665577;
+  font-weight: 550;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 13.5px;
+  transition: all 0.25s ease;
+}
+
+.subcategory-pill:hover {
+  background: #f3ebff;
+  color: #5e0099;
+}
+
+.subcategory-pill.active {
+  background: #f0e6ff;
+  color: #5e0099;
+  border-color: #b784f7;
+  box-shadow: inset 0 1px 3px rgba(94, 0, 153, 0.05);
+}
+
+/* ======================================================
+   PRODUCT CARD RATING STAR BADGE
+   ====================================================== */
+.card-rating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin-top: 6px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #444;
+}
+
+.card-rating .star-icon {
+  color: #D4AF37;
+  font-size: 15px;
+}
+
+.card-rating .rating-count {
+  color: #888;
+  font-size: 12px;
+  font-weight: normal;
+}
+
+/* ======================================================
+   EMPTY CATALOG STATE
+   ====================================================== */
+.empty-catalog-box {
+  background: white;
+  border: 2px dashed #d9b8ff;
+  border-radius: 20px;
+  padding: 50px 30px;
+  text-align: center;
+  max-width: 480px;
+  margin: 40px auto;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.03);
+}
+
+.empty-icon {
+  font-size: 48px;
+  margin-bottom: 15px;
+}
+
+.empty-catalog-box h3 {
+  font-size: 22px;
+  color: #5e0099;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.empty-catalog-box p {
+  color: #666;
+  font-size: 15px;
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.clear-filters-btn {
+  background: linear-gradient(135deg, #6a0dad, #8b24d4);
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 50px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-size: 15px;
+  box-shadow: 0 4px 12px rgba(106, 13, 173, 0.2);
+}
+
+.clear-filters-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(106, 13, 173, 0.3);
+}
+
+.clear-filters-btn:active {
+  transform: scale(0.97);
+}
+
+/* ======================================================
+   RESPONSIVE LAYOUT
+   ====================================================== */
+@media (max-width: 768px) {
+  .search-sort-bar {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .sort-container {
+    width: 100%;
+  }
+}

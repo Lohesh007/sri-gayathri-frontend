@@ -1,8 +1,11 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://sri-gayathri-backend.onrender.com/api",
+  baseURL: window.location.hostname === "localhost"
+    ? "http://localhost:5000/api"
+    : "https://sri-gayathri-backend.onrender.com/api",
   timeout: 10000,
+  withCredentials: true,
 });
 
 // attach token automatically from localStorage for each request
@@ -13,5 +16,20 @@ API.interceptors.request.use((config) => {
   }
   return config;
 });
+
+// handle expired tokens automatically by logging out
+API.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      if (!window.location.pathname.includes("/login")) {
+        window.location.href = "/login?expired=true";
+      }
+    }
+    return Promise.reject(error);
+  }
+);
 
 export default API;

@@ -1,34 +1,46 @@
 import React from "react";
 import "../styles/ConfirmationModal.css";
 
-const ConfirmationModal = ({ title = "Confirm Action", message, onConfirm, onCancel }) => {
+const ConfirmationModal = ({
+  title = "Notification",
+  message,
+  type = "info", // "success", "error", "warning", "info"
+  confirmText = "OK",
+  cancelText = "Cancel",
+  onConfirm,
+  onCancel,
+}) => {
+  const getIcon = () => {
+    switch (type) {
+      case "success":
+        return "✨";
+      case "error":
+        return "❌";
+      case "warning":
+        return "⚠️";
+      case "info":
+      default:
+        return "ℹ️";
+    }
+  };
+
   return (
     <div className="modal-overlay">
-
       <div className="modal-box">
-
-        {/* Icon */}
-        <div className="modal-icon">⚠️</div>
-
-        {/* Title */}
+        <div className={`modal-icon ${type}`}>{getIcon()}</div>
         <h2 className="modal-title">{title}</h2>
-
-        {/* Message */}
         <p className="modal-message">{message}</p>
-
-        {/* Buttons */}
         <div className="modal-actions">
-          <button className="confirm-btn" onClick={onConfirm}>
-            ✔ Yes, Continue
+          <button className={`confirm-btn ${type}`} onClick={onConfirm}>
+            {confirmText}
           </button>
-
-          <button className="cancel-btn" onClick={onCancel}>
-            ✖ Cancel
-          </button>
+          {onCancel && (
+            <button className="cancel-btn" onClick={onCancel}>
+              {cancelText}
+            </button>
+          )}
         </div>
-
       </div>
-
     </div>
   );
 };
