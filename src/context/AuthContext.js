@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
         const res = await API.get("/users/profile");
         if (res.data) {
           setUser(res.data);
-          setToken("authenticated");
+          setToken(localToken || "authenticated");
         } else {
           setUser(null);
           setToken(null);
