@@ -188,7 +188,7 @@ const Cart = () => {
           const { orderId, amount } = res.data;
 
           const options = {
-            key: "rzp_test_RetmJzKdi8jFB5",
+            key: process.env.REACT_APP_RAZORPAY_KEY_ID || "rzp_test_RetmJzKdi8jFB5",
             amount: amount * 100, // in paise
             currency: "INR",
             name: "Sri Gayathri Religious",
