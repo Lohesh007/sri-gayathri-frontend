@@ -1,6 +1,6 @@
 // src/components/Navbar.jsx
 import React, { useContext, useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { ModalContext } from "../context/ModalContext";
 import API from "../api";
@@ -11,11 +11,17 @@ const Navbar = () => {
   const { user, logout, cartCount } = useContext(AuthContext);
   const { showConfirm } = useContext(ModalContext);
   const navigate = useNavigate();
+  const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [allProducts, setAllProducts] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+
+  // Check if current path belongs to auth routines
+  const isAuthPage = ["/login", "/signup", "/forgot-password", "/reset", "/verify-email"].some(
+    (path) => location.pathname.startsWith(path)
+  );
 
   useEffect(() => {
     const loadProducts = async () => {
@@ -41,6 +47,14 @@ const Navbar = () => {
     setSuggestions(filtered);
   };
 
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
+      setShowSuggestions(false);
+    }
+  };
+
   const handleLogout = () => {
     showConfirm({
       title: "Confirm Logout",
@@ -64,33 +78,37 @@ const Navbar = () => {
       </div>
 
       {/* SEARCH BAR WITH AUTO-COMPLETE */}
-      <div className="nav-search-container">
-        <input
-          type="text"
-          placeholder="Search products..."
-          value={searchQuery}
-          onChange={(e) => handleSearchChange(e.target.value)}
-          onFocus={() => setShowSuggestions(true)}
-          onBlur={() => setTimeout(() => setShowSuggestions(false), 250)}
-        />
-        {showSuggestions && suggestions.length > 0 && (
-          <div className="search-suggestions-dropdown">
-            {suggestions.map((p) => (
-              <div
-                key={p._id}
-                className="suggestion-item"
-                onClick={() => {
-                  navigate(`/product/${p._id}`);
-                  setSearchQuery("");
-                }}
-              >
-                <img src={p.image} alt={p.name} />
-                <span>{p.name}</span>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+      {!isAuthPage && (
+        <div className="nav-search-container">
+          <form onSubmit={handleSearchSubmit} className="nav-search-form" style={{ width: "100%", display: "flex" }}>
+            <input
+              type="text"
+              placeholder="Search products..."
+              value={searchQuery}
+              onChange={(e) => handleSearchChange(e.target.value)}
+              onFocus={() => setShowSuggestions(true)}
+              onBlur={() => setTimeout(() => setShowSuggestions(false), 250)}
+            />
+          </form>
+          {showSuggestions && suggestions.length > 0 && (
+            <div className="search-suggestions-dropdown">
+              {suggestions.map((p) => (
+                <div
+                  key={p._id}
+                  className="suggestion-item"
+                  onClick={() => {
+                    navigate(`/product/${p._id}`);
+                    setSearchQuery("");
+                  }}
+                >
+                  <img src={p.image} alt={p.name} />
+                  <span>{p.name}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
 
       {/* HAMBURGER ICON - mobile */}
       <div 
