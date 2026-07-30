@@ -185,7 +185,7 @@ export default function AdminOrders() {
                   <td>
                     <select
                       value={o.status}
-                      disabled={savingId === o._id}
+                      disabled={savingId === o._id || o.status === "Cancelled" || o.status === "Delivered"}
                       onChange={(e) => handleStatusChange(o._id, e.target.value, o.status)}
                     >
                       <option>Pending</option>
