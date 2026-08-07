@@ -19,6 +19,10 @@ import VerifyEmail from "./pages/VerifyEmail";
 import Profile from "./pages/Profile";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import Terms from "./pages/Terms";
+import Privacy from "./pages/Privacy";
+import RefundPolicy from "./pages/RefundPolicy";
+import ShippingPolicy from "./pages/ShippingPolicy";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import { ToastContainer } from "react-toastify";
@@ -38,6 +42,10 @@ function App() {
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/refund-policy" element={<RefundPolicy />} />
+          <Route path="/shipping-policy" element={<ShippingPolicy />} />
           <Route path="/cart" element={<ProtectedRoute userOnly={true}><Cart /></ProtectedRoute>} />
           <Route path="/orders" element={<ProtectedRoute userOnly={true}><Orders /></ProtectedRoute>} />
           <Route path="/login" element={<Login />} />

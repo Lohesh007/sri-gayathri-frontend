@@ -30,6 +30,15 @@ const Footer = () => {
           <Link to="/contact">Contact</Link>
           <Link to="/orders">My Orders</Link>
         </div>
+
+        {/* Policies Section */}
+        <div className="footer-section">
+          <h3>Policies</h3>
+          <Link to="/terms">Terms & Conditions</Link>
+          <Link to="/privacy">Privacy Policy</Link>
+          <Link to="/refund-policy">Refund & Cancellation</Link>
+          <Link to="/shipping-policy">Shipping & Delivery</Link>
+        </div>
       </div>
 
       <div className="footer-bottom">
