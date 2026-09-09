@@ -14,11 +14,18 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const verifyAuth = async () => {
-      try {
-        const localUser = localStorage.getItem("user");
-        const localToken = localStorage.getItem("token");
+      const localToken = localStorage.getItem("token") || sessionStorage.getItem("token");
+      const localUser = localStorage.getItem("user") || sessionStorage.getItem("user");
 
-        if (localUser && localToken) {
+      if (!localToken) {
+        setUser(null);
+        setToken(null);
+        setAuthLoaded(true);
+        return;
+      }
+
+      try {
+        if (localUser) {
           setUser(JSON.parse(localUser));
           setToken(localToken);
         }
@@ -26,7 +33,7 @@ export const AuthProvider = ({ children }) => {
         const res = await API.get("/users/profile");
         if (res.data) {
           setUser(res.data);
-          setToken(localToken || "authenticated");
+          setToken(localToken);
         } else {
           setUser(null);
           setToken(null);

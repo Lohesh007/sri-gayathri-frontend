@@ -21,9 +21,17 @@ API.interceptors.request.use((config) => {
 API.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response && error.response.status === 401) {
+    if (
+      error.response &&
+      error.response.status === 401 &&
+      error.config &&
+      error.config.headers &&
+      error.config.headers.Authorization
+    ) {
       localStorage.removeItem("token");
       localStorage.removeItem("user");
+      sessionStorage.removeItem("token");
+      sessionStorage.removeItem("user");
       if (!window.location.pathname.includes("/login")) {
         window.location.href = "/login?expired=true";
       }
