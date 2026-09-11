@@ -4,7 +4,7 @@ const API = axios.create({
   baseURL: window.location.hostname === "localhost"
     ? "http://localhost:5000/api"
     : "https://sri-gayathri-backend.onrender.com/api",
-  timeout: 10000,
+  timeout: 30000,
   withCredentials: true,
 });
 
