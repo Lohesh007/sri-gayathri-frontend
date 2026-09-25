@@ -5,12 +5,11 @@ import API from "../api";
 import { ModalContext } from "../context/ModalContext";
 import "../styles/Home.css";
 
-import new1 from "../assets/images/new1.jpeg";
-import new2 from "../assets/images/new2.jpeg";
-import new3 from "../assets/images/new3.jpeg";
-import popular1 from "../assets/images/popular1.jpeg";
-import popular2 from "../assets/images/popular2.jpeg";
-import popular3 from "../assets/images/popular3.jpeg";
+import holyFamilyWhite from "../assets/images/holy_family_white_gold.jpg";
+import goldenCross from "../assets/images/golden_cross_emerald.jpg";
+import goldenMonstrance from "../assets/images/golden_monstrance_jhs.jpg";
+import sacredHeart from "../assets/images/sacred_heart_jesus.jpg";
+import holyFamilyColor from "../assets/images/holy_family_color.jpg";
 import logo from "../assets/logo.png";
 
 const Home = () => {
@@ -20,18 +19,93 @@ const Home = () => {
   const [newArrivals, setNewArrivals] = useState([]);
   const [popularProducts, setPopularProducts] = useState([]);
   const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  // 🌟 Featured Cover Carousel Products
+  const coverProducts = [
+    {
+      img: holyFamilyWhite,
+      name: "Vaticano Collezione Holy Family Statue (White & Gold)",
+      price: "2,499",
+      mrp: "3,200",
+      desc: "Exquisite 12-inch White & Gold Holy Family figurine depicting St. Joseph, Blessed Mother Mary, and Child Jesus with lily flower details and hand-painted gold trim.",
+      badge: "Vaticano Collection"
+    },
+    {
+      img: goldenCross,
+      name: "Ornate Golden Altar Cross with Emerald Gem",
+      price: "1,850",
+      mrp: "2,400",
+      desc: "Elegant 10-inch gold-plated standing altar cross featuring a brilliant multifaceted emerald green central crystal gem surrounded by sunburst rays.",
+      badge: "Best Seller"
+    },
+    {
+      img: goldenMonstrance,
+      name: "Gold Plated Eucharistic Monstrance (JHS)",
+      price: "3,850",
+      mrp: "4,990",
+      desc: "Traditional Catholic Eucharistic Monstrance (Ostensorium) with central JHS Sacred Host emblem and radiant sunburst ray design topped with a Holy Cross.",
+      badge: "Altar Sacred Item"
+    },
+    {
+      img: sacredHeart,
+      name: "Vaticano Collezione Sacred Heart of Jesus Statue",
+      price: "2,190",
+      mrp: "2,800",
+      desc: "Divine 14-inch Sacred Heart of Jesus statue featuring a hand-painted crimson cloak with gold embroidery and blessing gesture showing stigmata wounds.",
+      badge: "Featured Collection"
+    },
+    {
+      img: holyFamilyColor,
+      name: "Vaticano Collezione Holy Family Statue (Traditional Colors)",
+      price: "2,690",
+      mrp: "3,500",
+      desc: "Vibrant hand-painted traditional color Holy Family statue depicting Virgin Mary in teal blue & rose tunic, St. Joseph in green cloak, and Child Jesus.",
+      badge: "Top Rated"
+    }
+  ];
 
   // Fallbacks if backend contains no products
   const mockNewArrivals = [
-    { img: new1, name: "Ceramic Jesus Statue", _id: null },
-    { img: new2, name: "Wooden Bead Rosary", _id: null },
-    { img: new3, name: "St. Mary Framed Photo", _id: null }
+    {
+      img: holyFamilyWhite,
+      name: "Vaticano Collezione Holy Family (White & Gold)",
+      price: 2499,
+      _id: null
+    },
+    {
+      img: goldenCross,
+      name: "Ornate Golden Altar Cross with Emerald Gem",
+      price: 1850,
+      _id: null
+    },
+    {
+      img: goldenMonstrance,
+      name: "Gold Plated Eucharistic Monstrance (JHS)",
+      price: 3850,
+      _id: null
+    }
   ];
 
   const mockPopular = [
-    { img: popular1, name: "Fibre Mother Mary", _id: null },
-    { img: popular2, name: "Glow-in-Dark Rosary", _id: null },
-    { img: popular3, name: "PoP Jesus Cross Stand", _id: null }
+    {
+      img: sacredHeart,
+      name: "Vaticano Collezione Sacred Heart of Jesus",
+      price: 2190,
+      _id: null
+    },
+    {
+      img: holyFamilyColor,
+      name: "Vaticano Collezione Holy Family (Traditional)",
+      price: 2690,
+      _id: null
+    },
+    {
+      img: goldenMonstrance,
+      name: "Gold Plated Eucharistic Monstrance (JHS)",
+      price: 3850,
+      _id: null
+    }
   ];
 
   const categoriesList = [
@@ -42,10 +116,18 @@ const Home = () => {
   ];
 
   const testimonials = [
-    { name: "Maria D.", rating: 5, text: "The wooden rosaries are absolutely beautiful and high quality! Highly recommend Velankanni Sri Gayathri." },
-    { name: "Joseph K.", rating: 5, text: "Excellent customer service and very fast shipping. The St. Mary statue is stunning." },
-    { name: "Anish M.", rating: 4, text: "Bought a golden frame photo for my home chapel. Packaged very safely. Will buy again." }
+    { name: "Maria D.", rating: 5, text: "The Vaticano Collezione Holy Family statue is breathtaking! The gold trim detail is immaculate." },
+    { name: "Joseph K.", rating: 5, text: "Purchased the golden monstrance for our chapel. High quality, safe packaging and fast delivery to Velankanni." },
+    { name: "Anish M.", rating: 5, text: "The emerald crystal altar cross is stunning under prayer lights. Highly recommend Sri Gayathri." }
   ];
+
+  // Auto-advance cover slide every 4 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % coverProducts.length);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [coverProducts.length]);
 
   useEffect(() => {
     const fetchCatalog = async () => {
@@ -54,11 +136,9 @@ const Home = () => {
         const list = res.data || [];
 
         if (list.length > 0) {
-          // New arrivals: sort by creation date descending
           const sortedNew = [...list].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
           setNewArrivals(sortedNew.slice(0, 3));
 
-          // Popular: sort by average rating descending, fallback to creation
           const sortedPop = [...list].sort((a, b) => {
             const ratingA = a.rating || (a.reviews?.reduce((acc, r) => acc + r.rating, 0) / (a.reviews?.length || 1)) || 0;
             const ratingB = b.rating || (b.reviews?.reduce((acc, r) => acc + r.rating, 0) / (b.reviews?.length || 1)) || 0;
@@ -100,25 +180,56 @@ const Home = () => {
     }
   };
 
+  const activeCover = coverProducts[currentSlide];
+
   return (
     <div className="home-container">
-      {/* HERO SECTION */}
-      <div className="hero-section">
-        <div className="hero-left-image">
-          <img src={logo} alt="Logo" className="hero-logo glow" />
+      {/* FEATURED COVER SLIDER HERO SECTION */}
+      <div className="cover-carousel-wrapper">
+        <div className="hero-section cover-carousel-slide">
+          <div className="hero-left-image cover-img-box">
+            <img
+              src={activeCover.img}
+              alt={activeCover.name}
+              className="cover-product-img glow"
+            />
+            <span className="cover-badge">{activeCover.badge}</span>
+          </div>
+
+          <div className="hero-right-text">
+            <div className="hero-brand-tagline">
+              <img src={logo} alt="Logo" className="hero-mini-logo" />
+              <span>Sri Gayathri Religious</span>
+            </div>
+
+            <h1 className="cover-title">{activeCover.name}</h1>
+
+            <p className="cover-desc">{activeCover.desc}</p>
+
+            <div className="cover-price-row">
+              <span className="cover-price">₹{activeCover.price}</span>
+              <span className="cover-mrp">MRP ₹{activeCover.mrp}</span>
+              <span className="cover-discount">Save 22%</span>
+            </div>
+
+            <div className="cover-action-group">
+              <Link to="/products" className="hero-shop-btn">
+                Shop Collection ➔
+              </Link>
+            </div>
+          </div>
         </div>
-        <div className="hero-right-text">
-          <h1>
-            Welcome to <span className="gold-text">Sri Gayathri Fancy & Religious</span>
-          </h1>
-          <p>
-            Your trusted store in Velankanni for Religious Items, Rosaries, Holy Statues,
-            Framed Photos, Candle Stands, Keychains, and more. Experience premium quality,
-            divine collections, and fast delivery.
-          </p>
-          <Link to="/products" className="hero-shop-btn">
-            Explore Products
-          </Link>
+
+        {/* CAROUSEL INDICATOR DOTS */}
+        <div className="carousel-dots-container">
+          {coverProducts.map((_, idx) => (
+            <button
+              key={idx}
+              className={`carousel-dot ${currentSlide === idx ? "active" : ""}`}
+              onClick={() => setCurrentSlide(idx)}
+              aria-label={`Slide ${idx + 1}`}
+            />
+          ))}
         </div>
       </div>
 
