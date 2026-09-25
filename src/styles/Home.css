@@ -135,7 +135,10 @@
 .product-card img {
   width: 100%;
   height: 230px;
-  object-fit: cover;
+  object-fit: contain;
+  background: #ffffff;
+  padding: 8px;
+  border: 1px solid #f0e6ff;
   border-radius: 12px;
 }
 
