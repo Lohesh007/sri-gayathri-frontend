@@ -19,6 +19,10 @@ const ProductDetails = () => {
   const [newComment, setNewComment] = useState("");
   const [qty, setQty] = useState(1);
 
+  // Touch swipe state for mobile slideshow
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
+
   useEffect(() => {
     window.scrollTo(0, 0);
     setActiveImgIndex(0);
@@ -33,7 +37,7 @@ const ProductDetails = () => {
         const related = list.filter(
           (item) => item.category === res.data.category && item._id !== res.data._id
         );
-        setSimilarProducts(related.slice(0, 4));
+        setSimilarProducts(related.slice(0, 6));
       } catch (err) {
         console.error("Failed to load product details:", err);
       }
@@ -112,6 +116,31 @@ const ProductDetails = () => {
     }
   };
 
+  // Touch swipe handlers
+  const handleTouchStart = (e) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = (allImagesCount) => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 40;
+    const isRightSwipe = distance < -40;
+
+    if (isLeftSwipe) {
+      setActiveImgIndex((prev) => (prev === allImagesCount - 1 ? 0 : prev + 1));
+    }
+    if (isRightSwipe) {
+      setActiveImgIndex((prev) => (prev === 0 ? allImagesCount - 1 : prev - 1));
+    }
+    setTouchStart(0);
+    setTouchEnd(0);
+  };
+
   const renderStars = (rating) => {
     const stars = [];
     const fullStars = Math.round(rating);
@@ -125,33 +154,75 @@ const ProductDetails = () => {
     return stars;
   };
 
-  if (!p) return <h2 className="loading">Loading...</h2>;
+  if (!p) return <div className="details-loading-spinner">Loading Product Details...</div>;
 
-  const allImages = p.images && p.images.length > 0 ? [p.image, ...p.images] : [p.image];
+  const allImages = p.images && p.images.length > 0 
+    ? Array.from(new Set([p.image, ...p.images])).filter(Boolean)
+    : [p.image];
+
+  const discountPercent = p.mrp && p.mrp > p.price
+    ? Math.round(((p.mrp - p.price) / p.mrp) * 100)
+    : 0;
 
   return (
     <div className="details-page-wrapper">
       <div className="details-page">
 
-        {/* LEFT: PRODUCT IMAGE CAROUSEL */}
+        {/* LEFT: SLIDESHOW GALLERY (MOBILE TOUCH SWIPE & THUMBNAILS) */}
         <div className="details-left">
-          <div className="carousel-container">
-            <img src={allImages[activeImgIndex]} alt={p.name} className="details-img" />
+          <div 
+            className="carousel-container"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={() => handleTouchEnd(allImages.length)}
+          >
+            {discountPercent > 0 && (
+              <span className="discount-badge-overlay">
+                {discountPercent}% OFF
+              </span>
+            )}
+
+            {allImages.length > 1 && (
+              <span className="image-counter-badge">
+                📷 {activeImgIndex + 1} / {allImages.length}
+              </span>
+            )}
+
+            <img 
+              src={allImages[activeImgIndex]} 
+              alt={p.name} 
+              className="details-img" 
+            />
             
             {allImages.length > 1 && (
               <div className="carousel-controls">
                 <button 
                   className="carousel-btn prev"
                   onClick={() => setActiveImgIndex((prev) => (prev === 0 ? allImages.length - 1 : prev - 1))}
+                  aria-label="Previous Image"
                 >
-                  ◀
+                  ‹
                 </button>
                 <button 
                   className="carousel-btn next"
                   onClick={() => setActiveImgIndex((prev) => (prev === allImages.length - 1 ? 0 : prev + 1))}
+                  aria-label="Next Image"
                 >
-                  ▶
+                  ›
                 </button>
+              </div>
+            )}
+
+            {/* Dots indicator for mobile */}
+            {allImages.length > 1 && (
+              <div className="carousel-dots">
+                {allImages.map((_, idx) => (
+                  <span
+                    key={idx}
+                    className={`dot ${idx === activeImgIndex ? "active" : ""}`}
+                    onClick={() => setActiveImgIndex(idx)}
+                  />
+                ))}
               </div>
             )}
           </div>
@@ -172,37 +243,74 @@ const ProductDetails = () => {
           )}
         </div>
 
-        {/* RIGHT: CONTENT */}
+        {/* RIGHT: PRODUCT DETAILS & PRICING */}
         <div className="details-right">
+
+          <div className="category-breadcrumb">
+            <span className="cat-chip">{p.category}</span>
+            {p.subcategory && <span className="sub-chip">› {p.subcategory}</span>}
+          </div>
 
           <h1 className="product-title">{p.name}</h1>
 
-          {/* Average Rating stars */}
+          {/* Rating Summary (Amazon Style) */}
           <div className="product-rating-summary">
-            {renderStars(p.rating || 0)}
-            <span className="reviews-count">({p.numReviews || 0} customer reviews)</span>
+            <div className="rating-pill">
+              <span>{p.rating ? p.rating.toFixed(1) : "5.0"}</span> ★
+            </div>
+            <span className="reviews-count">({p.numReviews || 0} reviews)</span>
           </div>
 
-          <p className="product-category">
-            {p.category} → <span>{p.subcategory}</span>
-          </p>
+          {/* Flipkart / Amazon style price display */}
+          <div className="price-container">
+            <span className="selling-price">₹{p.price}</span>
+            {p.mrp && p.mrp > p.price && (
+              <>
+                <span className="mrp-price">₹{p.mrp}</span>
+                <span className="discount-tag">{discountPercent}% OFF</span>
+              </>
+            )}
+          </div>
+          <span className="tax-inclusive-text">Inclusive of all taxes</span>
 
-          <h2 className="product-price">
-            ₹{p.price}
-            <span className="product-mrp">₹{p.mrp}</span>
-          </h2>
-
+          {/* Stock Status Badge */}
           {p.stock <= 0 ? (
-            <p className="stock-status out-of-stock">Status: <span className="red-badge">Out of Stock</span></p>
+            <div className="stock-status out-of-stock">
+              <span className="red-badge">❌ Out of Stock</span>
+            </div>
           ) : (
-            <p className="stock-status in-stock">
-              Status: <span className="green-badge">In Stock ({p.stock} available)</span>
-            </p>
+            <div className="stock-status in-stock">
+              <span className="green-badge">✓ In Stock ({p.stock} available)</span>
+            </div>
           )}
 
-          <p className="product-desc">{p.description}</p>
+          {/* Amazon/Flipkart Trust Features */}
+          <div className="trust-features-bar">
+            <div className="trust-item">
+              <span className="trust-icon">🚚</span>
+              <span className="trust-label">Fast Shipping</span>
+            </div>
+            <div className="trust-item">
+              <span className="trust-icon">🛡️</span>
+              <span className="trust-label">100% Genuine</span>
+            </div>
+            <div className="trust-item">
+              <span className="trust-icon">💳</span>
+              <span className="trust-label">Secure Payment</span>
+            </div>
+            <div className="trust-item">
+              <span className="trust-icon">💬</span>
+              <span className="trust-label">WhatsApp Help</span>
+            </div>
+          </div>
 
-          {/* ADD TO CART ACTION BLOCK */}
+          {/* Description Box */}
+          <div className="description-card">
+            <h3>Product Overview & Specifications</h3>
+            <p className="product-desc">{p.description || "High quality authentic devotional item carefully handcrafted for divine worship and prayer."}</p>
+          </div>
+
+          {/* ADD TO CART ACTION BLOCK (Desktop / Main view) */}
           {user?.isAdmin ? (
             <div className="admin-order-notice">
               🛡 Ordering is disabled for administrative accounts.
@@ -211,6 +319,7 @@ const ProductDetails = () => {
             <div className="cart-action-block">
               {p.stock > 0 && (
                 <div className="qty-selector-container">
+                  <span className="qty-label">Qty:</span>
                   <button 
                     type="button" 
                     className="qty-btn minus" 
@@ -232,41 +341,40 @@ const ProductDetails = () => {
               )}
 
               <button className="btn-cart" onClick={addToCart} disabled={p.stock <= 0}>
-                {p.stock <= 0 ? "❌ Out of Stock" : "🛒 Add to Cart"}
+                {p.stock <= 0 ? "Out of Stock" : "🛒 Add to Cart"}
               </button>
             </div>
           )}
 
-          {/* CONTACT SECTION */}
+          {/* CONTACT & QUERY SECTION */}
           <div className="query-box">
-            <p>For any queries or bulk orders, contact us:</p>
-
+            <p className="query-title">Have questions or want custom bulk orders?</p>
             <div className="contact-buttons">
               <button
-                className="contact-btn"
+                className="contact-btn wa"
                 onClick={() =>
                   window.open(
-                    `https://wa.me/919842004217?text=Hi! I want to know more about ${p.name}.`
+                    `https://wa.me/919842004217?text=Hi! I want to inquire about ${p.name}.`
                   )
                 }
               >
-                WhatsApp
+                📱 WhatsApp
               </button>
 
               <button
-                className="contact-btn"
+                className="contact-btn insta"
                 onClick={() =>
                   window.open("https://www.instagram.com/sri_gayathri_religious")
                 }
               >
-                Instagram
+                📸 Instagram
               </button>
 
               <button
-                className="contact-btn"
+                className="contact-btn call"
                 onClick={() => (window.location.href = "tel:+919597580853")}
               >
-                Call
+                📞 Call Us
               </button>
             </div>
           </div>
@@ -275,7 +383,7 @@ const ProductDetails = () => {
 
       {/* REVIEWS & RATINGS SECTION */}
       <div className="reviews-section">
-        <h2>Customer Reviews</h2>
+        <h2>Customer Reviews & Ratings</h2>
         {p.reviews && p.reviews.length > 0 ? (
           <div className="reviews-list">
             {p.reviews.map((r) => (
@@ -292,17 +400,16 @@ const ProductDetails = () => {
             ))}
           </div>
         ) : (
-          <p className="no-reviews">No reviews yet. Be the first to review this product!</p>
+          <p className="no-reviews">No customer reviews yet. Be the first to share feedback!</p>
         )}
 
         {/* SUBMIT REVIEW FORM */}
         {user && !user.isAdmin ? (
           <form onSubmit={handleReviewSubmit} className="review-form">
-            <h3>Write a Customer Review</h3>
+            <h3>Write a Review</h3>
             
-            {/* INTERACTIVE GOLD STARS RATINGS INPUT */}
             <div className="form-group">
-              <label className="rating-label">Rating</label>
+              <label className="rating-label">Your Rating</label>
               <div className="interactive-stars-group">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <span
@@ -314,17 +421,17 @@ const ProductDetails = () => {
                   </span>
                 ))}
                 <span className="rating-desc-label">
-                  {newRating === 5 && "Excellent (5/5)"}
-                  {newRating === 4 && "Very Good (4/5)"}
-                  {newRating === 3 && "Good (3/5)"}
-                  {newRating === 2 && "Fair (2/5)"}
-                  {newRating === 1 && "Poor (1/5)"}
+                  {newRating === 5 && "5/5 (Excellent)"}
+                  {newRating === 4 && "4/5 (Very Good)"}
+                  {newRating === 3 && "3/5 (Good)"}
+                  {newRating === 2 && "2/5 (Fair)"}
+                  {newRating === 1 && "1/5 (Poor)"}
                 </span>
               </div>
             </div>
 
             <div className="form-group">
-              <label>Your Comment</label>
+              <label>Your Feedback</label>
               <textarea
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
@@ -343,37 +450,76 @@ const ProductDetails = () => {
         )}
       </div>
 
-      {/* SIMILAR PRODUCTS SECTION */}
+      {/* SIMILAR PRODUCTS SECTION (2 COLUMNS ON MOBILE LIKE AMAZON / FLIPKART) */}
       {similarProducts.length > 0 && (
         <div className="similar-products-section">
-          <h2 className="similar-title">✨ Similar Devotional Products</h2>
-          <div className="product-grid">
-            {similarProducts.map((sim) => (
-              <div
-                className="product-card new-card"
-                key={sim._id}
-                onClick={() => navigate(`/product/${sim._id}`)}
-              >
-                <div className="img-box">
-                  <img src={sim.image} alt={sim.name} />
-                </div>
-                <h3 className="p-name">{sim.name}</h3>
-                <p className="price">
-                  ₹{sim.price}
-                  <span className="mrp">₹{sim.mrp}</span>
-                </p>
-                <button
-                  className="view-btn"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    navigate(`/product/${sim._id}`);
-                  }}
-                >
-                  View Details
-                </button>
-              </div>
-            ))}
+          <div className="similar-header">
+            <h2 className="similar-title">✨ Similar Products You May Like</h2>
+            <span className="similar-subtitle">Based on {p.category}</span>
           </div>
+
+          <div className="similar-products-grid">
+            {similarProducts.map((sim) => {
+              const simDiscount = sim.mrp && sim.mrp > sim.price
+                ? Math.round(((sim.mrp - sim.price) / sim.mrp) * 100)
+                : 0;
+
+              return (
+                <div
+                  className="similar-card"
+                  key={sim._id}
+                  onClick={() => navigate(`/product/${sim._id}`)}
+                >
+                  <div className="similar-img-wrapper">
+                    {simDiscount > 0 && (
+                      <span className="similar-discount-badge">{simDiscount}% OFF</span>
+                    )}
+                    <img src={sim.image} alt={sim.name} className="similar-img" />
+                  </div>
+
+                  <div className="similar-card-info">
+                    <h3 className="similar-card-name">{sim.name}</h3>
+                    
+                    <div className="similar-card-rating">
+                      <span className="similar-star-badge">
+                        {sim.rating ? sim.rating.toFixed(1) : "5.0"} ★
+                      </span>
+                    </div>
+
+                    <div className="similar-card-price-row">
+                      <span className="similar-price">₹{sim.price}</span>
+                      {sim.mrp && sim.mrp > sim.price && (
+                        <span className="similar-mrp">₹{sim.mrp}</span>
+                      )}
+                    </div>
+
+                    <button
+                      className="similar-view-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/product/${sim._id}`);
+                      }}
+                    >
+                      View Details
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* MOBILE STICKY BOTTOM BAR (AMAZON / FLIPKART STYLE) */}
+      {!user?.isAdmin && p.stock > 0 && (
+        <div className="mobile-sticky-cta">
+          <div className="sticky-price-info">
+            <span className="sticky-price">₹{p.price * qty}</span>
+            <span className="sticky-qty-text">({qty} item{qty > 1 ? "s" : ""})</span>
+          </div>
+          <button className="sticky-cart-btn" onClick={addToCart}>
+            🛒 Add to Cart
+          </button>
         </div>
       )}
     </div>
