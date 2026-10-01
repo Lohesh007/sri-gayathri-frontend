@@ -6,6 +6,7 @@ import "../styles/ecommerce.css";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedSub, setSelectedSub] = useState("");
@@ -27,10 +28,13 @@ const Products = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+        setLoading(true);
         const res = await API.get("/products");
         setProducts(res.data);
       } catch (err) {
         console.error("Failed to fetch products:", err);
+      } finally {
+        setLoading(false);
       }
     };
     fetchProducts();
@@ -170,8 +174,13 @@ const Products = () => {
         </div>
       )}
 
-      {/* PRODUCTS DISPLAY LIST / EMPTY STATE */}
-      {sortedProducts.length === 0 ? (
+      {/* PRODUCTS DISPLAY LIST / LOADING / EMPTY STATE */}
+      {loading ? (
+        <div className="empty-catalog-box">
+          <div className="auth-loader" style={{ margin: "0 auto" }}></div>
+          <p style={{ marginTop: "15px", color: "#5e0099", fontWeight: "bold" }}>Loading products catalog...</p>
+        </div>
+      ) : sortedProducts.length === 0 ? (
         <div className="empty-catalog-box animate-pop">
           <div className="empty-icon">🔍</div>
           <h3>No Products Found</h3>

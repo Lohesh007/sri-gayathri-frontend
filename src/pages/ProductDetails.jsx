@@ -9,6 +9,7 @@ import "../styles/productdetails.css";
 const ProductDetails = () => {
   const { id } = useParams();
   const [p, setP] = useState(null);
+  const [similarProducts, setSimilarProducts] = useState([]);
   const navigate = useNavigate();
   const { user, token, setCartCount } = useContext(AuthContext);
   const { showAlert, showConfirm } = useContext(ModalContext);
@@ -19,10 +20,20 @@ const ProductDetails = () => {
   const [qty, setQty] = useState(1);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+    setActiveImgIndex(0);
     const fetchProduct = async () => {
       try {
         const res = await API.get(`/products/${id}`);
         setP(res.data);
+
+        // Fetch similar products in same category
+        const catalogRes = await API.get("/products");
+        const list = catalogRes.data || [];
+        const related = list.filter(
+          (item) => item.category === res.data.category && item._id !== res.data._id
+        );
+        setSimilarProducts(related.slice(0, 4));
       } catch (err) {
         console.error("Failed to load product details:", err);
       }
@@ -331,6 +342,40 @@ const ProductDetails = () => {
           </p>
         )}
       </div>
+
+      {/* SIMILAR PRODUCTS SECTION */}
+      {similarProducts.length > 0 && (
+        <div className="similar-products-section">
+          <h2 className="similar-title">✨ Similar Devotional Products</h2>
+          <div className="product-grid">
+            {similarProducts.map((sim) => (
+              <div
+                className="product-card new-card"
+                key={sim._id}
+                onClick={() => navigate(`/product/${sim._id}`)}
+              >
+                <div className="img-box">
+                  <img src={sim.image} alt={sim.name} />
+                </div>
+                <h3 className="p-name">{sim.name}</h3>
+                <p className="price">
+                  ₹{sim.price}
+                  <span className="mrp">₹{sim.mrp}</span>
+                </p>
+                <button
+                  className="view-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(`/product/${sim._id}`);
+                  }}
+                >
+                  View Details
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

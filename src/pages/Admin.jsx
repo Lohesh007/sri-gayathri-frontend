@@ -19,6 +19,7 @@ const Admin = () => {
   const [filterSub, setFilterSub] = useState("");
 
   const [imageFile, setImageFile] = useState(null);
+  const [additionalFiles, setAdditionalFiles] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [editId, setEditId] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -117,18 +118,26 @@ const Admin = () => {
       showAlert({ title: "Validation Error", message: "Stock quantity cannot be negative", type: "error" });
       return false;
     }
-    if (!editMode && !imageFile) {
+    if (!editMode && !imageFile && !form.image) {
       showAlert({ title: "Validation Error", message: "Please select a primary product image file to upload", type: "error" });
       return false;
     }
     return true;
   };
 
-  const uploadImage = async () => {
-    if (!imageFile) return form.image;
+  const fileToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
 
+  const uploadSingleFile = async (file) => {
+    if (!file) return null;
     const data = new FormData();
-    data.append("file", imageFile);
+    data.append("file", file);
     data.append("upload_preset", "ecommerce_images");
 
     try {
@@ -138,11 +147,32 @@ const Admin = () => {
       });
 
       const uploaded = await res.json();
-      return uploaded.secure_url || null;
+      if (uploaded.secure_url) return uploaded.secure_url;
+      return await fileToBase64(file);
     } catch (err) {
-      console.error("Cloudinary upload failed:", err);
-      return null;
+      console.error("Cloudinary upload fallback to Base64:", err);
+      return await fileToBase64(file);
     }
+  };
+
+  const uploadAllImages = async () => {
+    let primaryUrl = form.image;
+    if (imageFile) {
+      primaryUrl = await uploadSingleFile(imageFile);
+    }
+
+    let extraUrls = form.imagesInput
+      ? form.imagesInput.split(",").map((url) => url.trim()).filter(Boolean)
+      : [];
+
+    if (additionalFiles && additionalFiles.length > 0) {
+      const uploadedExtras = await Promise.all(
+        additionalFiles.map((file) => uploadSingleFile(file))
+      );
+      extraUrls = [...extraUrls, ...uploadedExtras.filter(Boolean)];
+    }
+
+    return { primaryUrl, extraUrls };
   };
 
   const handleAdd = async () => {
@@ -150,11 +180,11 @@ const Admin = () => {
 
     try {
       setSubmitting(true);
-      const imageURL = await uploadImage();
-      if (!imageURL) {
+      const { primaryUrl, extraUrls } = await uploadAllImages();
+      if (!primaryUrl) {
         showAlert({
           title: "Upload Error",
-          message: "Primary image upload to Cloudinary failed. Check file type/size.",
+          message: "Primary image upload failed. Check file format.",
           type: "error"
         });
         setSubmitting(false);
@@ -163,8 +193,8 @@ const Admin = () => {
 
       const finalForm = { 
         ...form, 
-        image: imageURL,
-        images: form.imagesInput ? form.imagesInput.split(",").map(url => url.trim()).filter(Boolean) : []
+        image: primaryUrl,
+        images: Array.from(new Set([primaryUrl, ...extraUrls]))
       };
       await API.post("/products/add", finalForm);
 
@@ -172,7 +202,7 @@ const Admin = () => {
       fetchProducts();
       showAlert({
         title: "Success",
-        message: "Product added successfully!",
+        message: "Product added successfully with all images!",
         type: "success"
       });
     } catch (err) {
@@ -202,11 +232,11 @@ const Admin = () => {
 
     try {
       setSubmitting(true);
-      const imageURL = await uploadImage();
+      const { primaryUrl, extraUrls } = await uploadAllImages();
       const finalForm = { 
         ...form, 
-        image: imageURL || form.image,
-        images: form.imagesInput ? form.imagesInput.split(",").map(url => url.trim()).filter(Boolean) : []
+        image: primaryUrl || form.image,
+        images: Array.from(new Set([primaryUrl || form.image, ...extraUrls]))
       };
 
       await API.put(`/products/${editId}`, finalForm);
@@ -271,6 +301,7 @@ const Admin = () => {
     });
     setEditMode(false);
     setImageFile(null);
+    setAdditionalFiles([]);
   };
 
   // FILTER & SEARCH
@@ -378,9 +409,20 @@ const Admin = () => {
           </div>
 
           <div className="admin-form-field file-upload-field">
-            <label className="admin-field-label">Product Image File</label>
+            <label className="admin-field-label">Main Product Image File</label>
             <input type="file" onChange={(e) => setImageFile(e.target.files[0])} className="file-input" />
             <span className="file-help-text">JPG, JPEG or PNG formats supported.</span>
+          </div>
+
+          <div className="admin-form-field file-upload-field">
+            <label className="admin-field-label">Additional Product Image Files (Multiple)</label>
+            <input 
+              type="file" 
+              multiple 
+              onChange={(e) => setAdditionalFiles(Array.from(e.target.files))} 
+              className="file-input" 
+            />
+            <span className="file-help-text">Select multiple extra images at once to upload for this product.</span>
           </div>
 
           {(imageFile || form.image) && (
