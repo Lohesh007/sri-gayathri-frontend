@@ -21,6 +21,10 @@ const Home = () => {
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [currentSlide, setCurrentSlide] = useState(0);
 
+  // Touch swipe state for mobile cover carousel
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
+
   // 🌟 Featured Cover Carousel Products
   const coverProducts = [
     {
@@ -137,14 +141,14 @@ const Home = () => {
 
         if (list.length > 0) {
           const sortedNew = [...list].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-          setNewArrivals(sortedNew.slice(0, 3));
+          setNewArrivals(sortedNew.slice(0, 4));
 
           const sortedPop = [...list].sort((a, b) => {
             const ratingA = a.rating || (a.reviews?.reduce((acc, r) => acc + r.rating, 0) / (a.reviews?.length || 1)) || 0;
             const ratingB = b.rating || (b.reviews?.reduce((acc, r) => acc + r.rating, 0) / (b.reviews?.length || 1)) || 0;
             return ratingB - ratingA;
           });
-          setPopularProducts(sortedPop.slice(0, 3));
+          setPopularProducts(sortedPop.slice(0, 4));
         }
       } catch (err) {
         console.error("Home page catalog load failure:", err);
@@ -153,6 +157,30 @@ const Home = () => {
 
     fetchCatalog();
   }, []);
+
+  const handleTouchStart = (e) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 40;
+    const isRightSwipe = distance < -40;
+
+    if (isLeftSwipe) {
+      setCurrentSlide((prev) => (prev + 1) % coverProducts.length);
+    }
+    if (isRightSwipe) {
+      setCurrentSlide((prev) => (prev === 0 ? coverProducts.length - 1 : prev - 1));
+    }
+    setTouchStart(0);
+    setTouchEnd(0);
+  };
 
   const handleSubscribe = (e) => {
     e.preventDefault();
@@ -184,9 +212,14 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      {/* FEATURED COVER SLIDER HERO SECTION */}
+      {/* FEATURED COVER SLIDER HERO SECTION WITH TOUCH SWIPE */}
       <div className="cover-carousel-wrapper">
-        <div className="hero-section cover-carousel-slide">
+        <div 
+          className="hero-section cover-carousel-slide"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
           <div className="hero-left-image cover-img-box">
             <img
               src={activeCover.img}
@@ -233,7 +266,7 @@ const Home = () => {
         </div>
       </div>
 
-      {/* SHOP BY CATEGORY */}
+      {/* SHOP BY CATEGORY (2 COLUMNS ON MOBILE) */}
       <section className="section">
         <h2 className="section-title">🛍️ Shop By Category</h2>
         <div className="category-grid">
@@ -251,7 +284,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* NEW ARRIVALS */}
+      {/* NEW ARRIVALS (2 COLUMNS ON MOBILE) */}
       <section className="section">
         <h2 className="section-title">🆕 New Arrivals</h2>
         <div className="product-grid">
@@ -266,7 +299,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* FAST SELLING PRODUCTS */}
+      {/* FAST SELLING PRODUCTS (2 COLUMNS ON MOBILE) */}
       <section className="section">
         <h2 className="section-title">🔥 Fast Selling Products</h2>
         <div className="product-grid">
@@ -345,22 +378,22 @@ const Home = () => {
         <div className="contact-buttons">
           <a
             href="https://wa.me/919842004217?text=Hi!%20I%20want%20to%20know%20more%20about%20your%20products."
-            className="contact-btn"
+            className="contact-btn wa"
             target="_blank"
             rel="noopener noreferrer"
           >
-            WhatsApp
+            📱 WhatsApp
           </a>
-          <a href="tel:+919597580853" className="contact-btn">
-            Call Us
+          <a href="tel:+919597580853" className="contact-btn call">
+            📞 Call Us
           </a>
           <a
             href="https://www.instagram.com/sri_gayathri_religious"
-            className="contact-btn"
+            className="contact-btn insta"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Instagram
+            📸 Instagram
           </a>
         </div>
       </section>
