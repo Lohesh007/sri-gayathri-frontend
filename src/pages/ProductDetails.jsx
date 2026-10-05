@@ -31,13 +31,40 @@ const ProductDetails = () => {
         const res = await API.get(`/products/${id}`);
         setP(res.data);
 
-        // Fetch similar products in same category
+        // Fetch catalog to find similar products
         const catalogRes = await API.get("/products");
         const list = catalogRes.data || [];
-        const related = list.filter(
+
+        // Shuffle helper
+        const shuffle = (arr) => {
+          const a = [...arr];
+          for (let i = a.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [a[i], a[j]] = [a[j], a[i]];
+          }
+          return a;
+        };
+
+        // 1. Same category items (excluding current product)
+        let categoryMatches = list.filter(
           (item) => item.category === res.data.category && item._id !== res.data._id
         );
-        setSimilarProducts(related.slice(0, 6));
+        categoryMatches = shuffle(categoryMatches);
+
+        const TARGET_COUNT = 6;
+        let finalSimilar = [...categoryMatches];
+
+        // 2. If same category has fewer items, fill up from DIFFERENT categories!
+        if (finalSimilar.length < TARGET_COUNT) {
+          const usedIds = new Set([res.data._id, ...finalSimilar.map((item) => item._id)]);
+          const otherCategoryItems = list.filter((item) => !usedIds.has(item._id));
+          const shuffledOthers = shuffle(otherCategoryItems);
+
+          const needed = TARGET_COUNT - finalSimilar.length;
+          finalSimilar = [...finalSimilar, ...shuffledOthers.slice(0, needed)];
+        }
+
+        setSimilarProducts(finalSimilar.slice(0, TARGET_COUNT));
       } catch (err) {
         console.error("Failed to load product details:", err);
       }

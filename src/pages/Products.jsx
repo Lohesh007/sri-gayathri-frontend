@@ -25,12 +25,22 @@ const Products = () => {
     Chains: ["Stainless Steel Chain", "Covering Chain", "German Chain"],
   };
 
+  const shuffleArray = (array) => {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  };
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
         const res = await API.get("/products");
-        setProducts(res.data);
+        const shuffled = shuffleArray(res.data || []);
+        setProducts(shuffled);
       } catch (err) {
         console.error("Failed to fetch products:", err);
       } finally {

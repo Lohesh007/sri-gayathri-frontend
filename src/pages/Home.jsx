@@ -26,14 +26,15 @@ const Home = () => {
   const [touchEnd, setTouchEnd] = useState(0);
 
   // 🌟 Featured Cover Carousel Products
-  const coverProducts = [
+  const [coverProducts, setCoverProducts] = useState([
     {
       img: holyFamilyWhite,
       name: "Vaticano Collezione Holy Family Statue (White & Gold)",
       price: "2,499",
       mrp: "3,200",
       desc: "Exquisite 12-inch White & Gold Holy Family figurine depicting St. Joseph, Blessed Mother Mary, and Child Jesus with lily flower details and hand-painted gold trim.",
-      badge: "Vaticano Collection"
+      badge: "Vaticano Collection",
+      _id: null
     },
     {
       img: goldenCross,
@@ -41,7 +42,8 @@ const Home = () => {
       price: "1,850",
       mrp: "2,400",
       desc: "Elegant 10-inch gold-plated standing altar cross featuring a brilliant multifaceted emerald green central crystal gem surrounded by sunburst rays.",
-      badge: "Best Seller"
+      badge: "Best Seller",
+      _id: null
     },
     {
       img: goldenMonstrance,
@@ -49,7 +51,8 @@ const Home = () => {
       price: "3,850",
       mrp: "4,990",
       desc: "Traditional Catholic Eucharistic Monstrance (Ostensorium) with central JHS Sacred Host emblem and radiant sunburst ray design topped with a Holy Cross.",
-      badge: "Altar Sacred Item"
+      badge: "Altar Sacred Item",
+      _id: null
     },
     {
       img: sacredHeart,
@@ -57,7 +60,8 @@ const Home = () => {
       price: "2,190",
       mrp: "2,800",
       desc: "Divine 14-inch Sacred Heart of Jesus statue featuring a hand-painted crimson cloak with gold embroidery and blessing gesture showing stigmata wounds.",
-      badge: "Featured Collection"
+      badge: "Featured Collection",
+      _id: null
     },
     {
       img: holyFamilyColor,
@@ -65,9 +69,10 @@ const Home = () => {
       price: "2,690",
       mrp: "3,500",
       desc: "Vibrant hand-painted traditional color Holy Family statue depicting Virgin Mary in teal blue & rose tunic, St. Joseph in green cloak, and Child Jesus.",
-      badge: "Top Rated"
+      badge: "Top Rated",
+      _id: null
     }
-  ];
+  ]);
 
   // Fallbacks if backend contains no products
   const mockNewArrivals = [
@@ -127,6 +132,7 @@ const Home = () => {
 
   // Auto-advance cover slide every 4 seconds
   useEffect(() => {
+    if (coverProducts.length === 0) return;
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % coverProducts.length);
     }, 4000);
@@ -140,15 +146,42 @@ const Home = () => {
         const list = res.data || [];
 
         if (list.length > 0) {
-          const sortedNew = [...list].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-          setNewArrivals(sortedNew.slice(0, 4));
+          // Build dynamic cover products from catalog across categories
+          const categories = ["Statues", "Rosaries", "Photos", "Cross"];
+          const selectedForCover = [];
 
-          const sortedPop = [...list].sort((a, b) => {
-            const ratingA = a.rating || (a.reviews?.reduce((acc, r) => acc + r.rating, 0) / (a.reviews?.length || 1)) || 0;
-            const ratingB = b.rating || (b.reviews?.reduce((acc, r) => acc + r.rating, 0) / (b.reviews?.length || 1)) || 0;
-            return ratingB - ratingA;
+          categories.forEach((cat) => {
+            const match = list.find((p) => p.category === cat && p.image);
+            if (match) selectedForCover.push(match);
           });
-          setPopularProducts(sortedPop.slice(0, 4));
+
+          // Fill up to 5 items if needed
+          list.forEach((p) => {
+            if (selectedForCover.length < 5 && !selectedForCover.some((item) => item._id === p._id)) {
+              selectedForCover.push(p);
+            }
+          });
+
+          if (selectedForCover.length > 0) {
+            const formattedCovers = selectedForCover.map((p) => ({
+              img: p.image,
+              name: p.name,
+              price: p.price,
+              mrp: p.mrp || p.price + 50,
+              desc: p.description || `Premium quality ${p.name.toLowerCase()} handcrafted for prayer and devotion.`,
+              badge: `${p.category} Special`,
+              _id: p._id
+            }));
+            setCoverProducts(formattedCovers);
+          }
+
+          // Shuffled mix for New Arrivals & Fast Selling
+          const shuffledList = [...list].sort(() => 0.5 - Math.random());
+          setNewArrivals(shuffledList.slice(0, 6));
+
+          const sortedPop = [...list].sort((a, b) => (b.rating || 5) - (a.rating || 5));
+          const shuffledPop = [...sortedPop].sort(() => 0.5 - Math.random());
+          setPopularProducts(shuffledPop.slice(0, 6));
         }
       } catch (err) {
         console.error("Home page catalog load failure:", err);
