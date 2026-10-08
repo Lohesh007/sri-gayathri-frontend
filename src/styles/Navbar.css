@@ -227,3 +227,63 @@
     flex-wrap: wrap;
   }
 }
+
+/* 📢 RUNNING ANNOUNCEMENT TICKER BAR */
+.announcement-ticker-bar {
+  background: linear-gradient(90deg, #ffcc00, #ffdb4d, #ffcc00);
+  color: #33004d;
+  font-size: 13.5px;
+  font-weight: 600;
+  padding: 7px 0;
+  overflow: hidden;
+  white-space: nowrap;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.12);
+  position: relative;
+  width: 100%;
+  z-index: 999;
+  border-bottom: 1px solid #e6b800;
+}
+
+.ticker-track {
+  display: inline-block;
+  white-space: nowrap;
+  animation: ticker-marquee 25s linear infinite;
+  padding-left: 100%;
+}
+
+.ticker-track:hover {
+  animation-play-state: paused;
+}
+
+.ticker-item {
+  display: inline-block;
+  margin-right: 20px;
+  letter-spacing: 0.2px;
+}
+
+.ticker-item strong {
+  color: #6a0dad;
+}
+
+.ticker-divider {
+  color: #d90000;
+  font-weight: bold;
+  margin-right: 20px;
+}
+
+@keyframes ticker-marquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+
+@media (max-width: 480px) {
+  .announcement-ticker-bar {
+    font-size: 12px;
+    padding: 5px 0;
+  }
+}
+

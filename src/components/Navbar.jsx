@@ -69,102 +69,125 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar">
+    <>
+      <nav className="navbar">
 
-      {/* LOGO + TITLE */}
-      <div className="nav-left">
-        <img src={logo} alt="Logo" className="nav-logo" />
-        <h2 className="nav-title">Sri Gayathri Fancy & Religious</h2>
-      </div>
-
-      {/* SEARCH BAR WITH AUTO-COMPLETE */}
-      {!isAuthPage && (
-        <div className="nav-search-container">
-          <form onSubmit={handleSearchSubmit} className="nav-search-form" style={{ width: "100%", display: "flex" }}>
-            <input
-              type="text"
-              placeholder="Search products..."
-              value={searchQuery}
-              onChange={(e) => handleSearchChange(e.target.value)}
-              onFocus={() => setShowSuggestions(true)}
-              onBlur={() => setTimeout(() => setShowSuggestions(false), 250)}
-            />
-          </form>
-          {showSuggestions && suggestions.length > 0 && (
-            <div className="search-suggestions-dropdown">
-              {suggestions.map((p) => (
-                <div
-                  key={p._id}
-                  className="suggestion-item"
-                  onClick={() => {
-                    navigate(`/product/${p._id}`);
-                    setSearchQuery("");
-                  }}
-                >
-                  <img src={p.image} alt={p.name} />
-                  <span>{p.name}</span>
-                </div>
-              ))}
-            </div>
-          )}
+        {/* LOGO + TITLE */}
+        <div className="nav-left">
+          <img src={logo} alt="Logo" className="nav-logo" />
+          <h2 className="nav-title">Sri Gayathri Fancy & Religious</h2>
         </div>
-      )}
 
-      {/* HAMBURGER ICON - mobile */}
-      <div 
-        className="hamburger" 
-        onClick={() => setMenuOpen(!menuOpen)}
-      >
-        ☰
-      </div>
-
-      {/* NAV LINKS */}
-      <ul className={`nav-links ${menuOpen ? "open" : ""}`}>
-        <li><Link to="/" onClick={() => setMenuOpen(false)}>Home</Link></li>
-        <li><Link to="/products" onClick={() => setMenuOpen(false)}>Products</Link></li>
-        <li><Link to="/about" onClick={() => setMenuOpen(false)}>About</Link></li>
-        <li><Link to="/contact" onClick={() => setMenuOpen(false)}>Contact</Link></li>
-
-        {user ? (
-          <>
-            {!user.isAdmin && (
-              <>
-                <li>
-                  <Link to="/cart" onClick={() => setMenuOpen(false)}>
-                    Cart {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
-                  </Link>
-                </li>
-                <li><Link to="/orders" onClick={() => setMenuOpen(false)}>Orders</Link></li>
-              </>
+        {/* SEARCH BAR WITH AUTO-COMPLETE */}
+        {!isAuthPage && (
+          <div className="nav-search-container">
+            <form onSubmit={handleSearchSubmit} className="nav-search-form" style={{ width: "100%", display: "flex" }}>
+              <input
+                type="text"
+                placeholder="Search products..."
+                value={searchQuery}
+                onChange={(e) => handleSearchChange(e.target.value)}
+                onFocus={() => setShowSuggestions(true)}
+                onBlur={() => setTimeout(() => setShowSuggestions(false), 250)}
+              />
+            </form>
+            {showSuggestions && suggestions.length > 0 && (
+              <div className="search-suggestions-dropdown">
+                {suggestions.map((p) => (
+                  <div
+                    key={p._id}
+                    className="suggestion-item"
+                    onClick={() => {
+                      navigate(`/product/${p._id}`);
+                      setSearchQuery("");
+                    }}
+                  >
+                    <img src={p.image} alt={p.name} />
+                    <span>{p.name}</span>
+                  </div>
+                ))}
+              </div>
             )}
-
-            {user.isAdmin && (
-              <>
-                <li><Link to="/admin" onClick={() => setMenuOpen(false)}>Admin Products</Link></li>
-                <li><Link to="/admin/orders" onClick={() => setMenuOpen(false)}>Admin Orders</Link></li>
-              </>
-            )}
-
-            <li>
-              <Link to="/profile" onClick={() => setMenuOpen(false)}>
-                Profile ({user?.username})
-              </Link>
-            </li>
-
-            <li>
-              <button className="logout-btn" onClick={handleLogout}>
-                Logout
-              </button>
-            </li>
-          </>
-        ) : (
-          <>
-            <li><Link to="/login" onClick={() => setMenuOpen(false)}>Login</Link></li>
-            <li><Link to="/signup" onClick={() => setMenuOpen(false)}>Signup</Link></li>
-          </>
+          </div>
         )}
-      </ul>
-    </nav>
+
+        {/* HAMBURGER ICON - mobile */}
+        <div 
+          className="hamburger" 
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          ☰
+        </div>
+
+        {/* NAV LINKS */}
+        <ul className={`nav-links ${menuOpen ? "open" : ""}`}>
+          <li><Link to="/" onClick={() => setMenuOpen(false)}>Home</Link></li>
+          <li><Link to="/products" onClick={() => setMenuOpen(false)}>Products</Link></li>
+          <li><Link to="/about" onClick={() => setMenuOpen(false)}>About</Link></li>
+          <li><Link to="/contact" onClick={() => setMenuOpen(false)}>Contact</Link></li>
+
+          {user ? (
+            <>
+              {!user.isAdmin && (
+                <>
+                  <li>
+                    <Link to="/cart" onClick={() => setMenuOpen(false)}>
+                      Cart {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
+                    </Link>
+                  </li>
+                  <li><Link to="/orders" onClick={() => setMenuOpen(false)}>Orders</Link></li>
+                </>
+              )}
+
+              {user.isAdmin && (
+                <>
+                  <li><Link to="/admin" onClick={() => setMenuOpen(false)}>Admin Products</Link></li>
+                  <li><Link to="/admin/orders" onClick={() => setMenuOpen(false)}>Admin Orders</Link></li>
+                </>
+              )}
+
+              <li>
+                <Link to="/profile" onClick={() => setMenuOpen(false)}>
+                  Profile ({user?.username})
+                </Link>
+              </li>
+
+              <li>
+                <button className="logout-btn" onClick={handleLogout}>
+                  Logout
+                </button>
+              </li>
+            </>
+          ) : (
+            <>
+              <li><Link to="/login" onClick={() => setMenuOpen(false)}>Login</Link></li>
+              <li><Link to="/signup" onClick={() => setMenuOpen(false)}>Signup</Link></li>
+            </>
+          )}
+        </ul>
+      </nav>
+
+      {/* RUNNING ANNOUNCEMENT TICKER BAR (BELOW NAVBAR) */}
+      <div className="announcement-ticker-bar">
+        <div className="ticker-track">
+          <span className="ticker-item">🚚 <strong>FREE SHIPPING:</strong> No extra delivery charges on orders above ₹499!</span>
+          <span className="ticker-divider">•</span>
+          <span className="ticker-item">📦 <strong>100% SAFE PACKAGING:</strong> Breakage-free protective bubble wrapping guaranteed!</span>
+          <span className="ticker-divider">•</span>
+          <span className="ticker-item">📍 <strong>AUTHENTIC STORE:</strong> Located in Velankanni, Nagapattinam, Tamil Nadu</span>
+          <span className="ticker-divider">•</span>
+          <span className="ticker-item">📱 <strong>BULK ORDERS & CHURCH INQUIRIES:</strong> WhatsApp us at +91 9842004217</span>
+          <span className="ticker-divider">•</span>
+          <span className="ticker-item">🚚 <strong>FREE SHIPPING:</strong> No extra delivery charges on orders above ₹499!</span>
+          <span className="ticker-divider">•</span>
+          <span className="ticker-item">📦 <strong>100% SAFE PACKAGING:</strong> Breakage-free protective bubble wrapping guaranteed!</span>
+          <span className="ticker-divider">•</span>
+          <span className="ticker-item">📍 <strong>AUTHENTIC STORE:</strong> Located in Velankanni, Nagapattinam, Tamil Nadu</span>
+          <span className="ticker-divider">•</span>
+          <span className="ticker-item">📱 <strong>BULK ORDERS & CHURCH INQUIRIES:</strong> WhatsApp us at +91 9842004217</span>
+        </div>
+      </div>
+    </>
   );
 };
 

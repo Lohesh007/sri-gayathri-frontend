@@ -146,42 +146,27 @@ const Home = () => {
         const list = res.data || [];
 
         if (list.length > 0) {
-          // Build dynamic cover products from catalog across categories
-          const categories = ["Statues", "Rosaries", "Photos", "Cross"];
-          const selectedForCover = [];
+          // Separate Statues vs Non-Statues
+          const statues = list.filter((p) => p.category === "Statues");
+          const nonStatues = list.filter((p) => p.category !== "Statues");
 
-          categories.forEach((cat) => {
-            const match = list.find((p) => p.category === cat && p.image);
-            if (match) selectedForCover.push(match);
-          });
+          // Helper to select 6 statues + 2 others = 8 total items
+          const createSet = (statueList, otherList, isReverse = false) => {
+            const sList = isReverse ? [...statueList].reverse() : [...statueList];
+            const oList = isReverse ? [...otherList].reverse() : [...otherList];
 
-          // Fill up to 5 items if needed
-          list.forEach((p) => {
-            if (selectedForCover.length < 5 && !selectedForCover.some((item) => item._id === p._id)) {
-              selectedForCover.push(p);
-            }
-          });
+            const pickedStatues = sList.slice(0, 6);
+            const pickedOthers = oList.slice(0, 8 - pickedStatues.length);
+            return [...pickedStatues, ...pickedOthers];
+          };
 
-          if (selectedForCover.length > 0) {
-            const formattedCovers = selectedForCover.map((p) => ({
-              img: p.image,
-              name: p.name,
-              price: p.price,
-              mrp: p.mrp || p.price + 50,
-              desc: p.description || `Premium quality ${p.name.toLowerCase()} handcrafted for prayer and devotion.`,
-              badge: `${p.category} Special`,
-              _id: p._id
-            }));
-            setCoverProducts(formattedCovers);
-          }
+          // New Arrivals: 8 items (6 Statues + 2 Rosary/Others)
+          const newSet = createSet(statues, nonStatues, false);
+          setNewArrivals(newSet);
 
-          // Shuffled mix for New Arrivals & Fast Selling
-          const shuffledList = [...list].sort(() => 0.5 - Math.random());
-          setNewArrivals(shuffledList.slice(0, 6));
-
-          const sortedPop = [...list].sort((a, b) => (b.rating || 5) - (a.rating || 5));
-          const shuffledPop = [...sortedPop].sort(() => 0.5 - Math.random());
-          setPopularProducts(shuffledPop.slice(0, 6));
+          // Fast Selling Products: 8 items (6 Statues + 2 Rosary/Others)
+          const fastSet = createSet(statues, nonStatues, true);
+          setPopularProducts(fastSet);
         }
       } catch (err) {
         console.error("Home page catalog load failure:", err);
@@ -245,7 +230,7 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      {/* FEATURED COVER SLIDER HERO SECTION WITH TOUCH SWIPE */}
+      {/* FEATURED COVER SLIDER HERO SECTION WITH TOUCH SWIPE (NAME & PRICE ONLY) */}
       <div className="cover-carousel-wrapper">
         <div 
           className="hero-section cover-carousel-slide"
@@ -270,12 +255,9 @@ const Home = () => {
 
             <h1 className="cover-title">{activeCover.name}</h1>
 
-            <p className="cover-desc">{activeCover.desc}</p>
-
             <div className="cover-price-row">
               <span className="cover-price">₹{activeCover.price}</span>
-              <span className="cover-mrp">MRP ₹{activeCover.mrp}</span>
-              <span className="cover-discount">Save 22%</span>
+              {activeCover.mrp && <span className="cover-mrp">MRP ₹{activeCover.mrp}</span>}
             </div>
 
             <div className="cover-action-group">
