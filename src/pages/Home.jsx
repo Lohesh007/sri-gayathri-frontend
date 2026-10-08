@@ -26,7 +26,7 @@ const Home = () => {
   const [touchEnd, setTouchEnd] = useState(0);
 
   // 🌟 Featured Cover Carousel Products
-  const [coverProducts, setCoverProducts] = useState([
+  const coverProducts = [
     {
       img: holyFamilyWhite,
       name: "Vaticano Collezione Holy Family Statue (White & Gold)",
@@ -72,7 +72,7 @@ const Home = () => {
       badge: "Top Rated",
       _id: null
     }
-  ]);
+  ];
 
   // Fallbacks if backend contains no products
   const mockNewArrivals = [
