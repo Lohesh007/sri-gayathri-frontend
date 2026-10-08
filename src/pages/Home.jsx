@@ -25,52 +25,55 @@ const Home = () => {
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
 
-  // 🌟 Featured Cover Carousel Products
+  // 🌟 Featured Cover Carousel Products (Exact items requested from user catalog)
   const coverProducts = [
     {
-      img: holyFamilyWhite,
-      name: "Vaticano Collezione Holy Family Statue (White & Gold)",
-      price: "2,499",
-      mrp: "3,200",
-      desc: "Exquisite 12-inch White & Gold Holy Family figurine depicting St. Joseph, Blessed Mother Mary, and Child Jesus with lily flower details and hand-painted gold trim.",
-      badge: "Vaticano Collection",
-      _id: null
+      img: "https://res.cloudinary.com/dontth6xt/image/upload/v1791439735/fu7etcqbwf0hjewkhowz.jpg",
+      name: "Our lady of Velankanni Statue 30'' inches",
+      price: "7,500",
+      mrp: "8,500",
+      badge: "30 Inch Fibre Statue",
+      _id: "6ac73378d5e5999623b13798"
     },
     {
-      img: goldenCross,
-      name: "Ornate Golden Altar Cross with Emerald Gem",
-      price: "1,850",
-      mrp: "2,400",
-      desc: "Elegant 10-inch gold-plated standing altar cross featuring a brilliant multifaceted emerald green central crystal gem surrounded by sunburst rays.",
-      badge: "Best Seller",
-      _id: null
+      img: "https://res.cloudinary.com/dontth6xt/image/upload/v1791439845/fumps9plzpepjwh9vusk.jpg",
+      name: "Our lady of Velankanni Statue 24'' inches",
+      price: "5,500",
+      mrp: "6,200",
+      badge: "24 Inch Radium Statue",
+      _id: "6ac733e6d5e5999623b1379d"
     },
     {
-      img: goldenMonstrance,
-      name: "Gold Plated Eucharistic Monstrance (JHS)",
-      price: "3,850",
-      mrp: "4,990",
-      desc: "Traditional Catholic Eucharistic Monstrance (Ostensorium) with central JHS Sacred Host emblem and radiant sunburst ray design topped with a Holy Cross.",
-      badge: "Altar Sacred Item",
-      _id: null
+      img: "https://res.cloudinary.com/dontth6xt/image/upload/v1790836812/oect0gsmzmlehgysknz1.png",
+      name: "Holy Family 16'' inches",
+      price: "2,400",
+      mrp: "2,900",
+      badge: "White Holy Family",
+      _id: "6abe004d4fa9600f854e9153"
     },
     {
-      img: sacredHeart,
-      name: "Vaticano Collezione Sacred Heart of Jesus Statue",
-      price: "2,190",
-      mrp: "2,800",
-      desc: "Divine 14-inch Sacred Heart of Jesus statue featuring a hand-painted crimson cloak with gold embroidery and blessing gesture showing stigmata wounds.",
-      badge: "Featured Collection",
-      _id: null
+      img: "https://res.cloudinary.com/dontth6xt/image/upload/v1790836774/vlokcmeyjj3au3sgucwl.png",
+      name: "Sacred Heart of Jesus 12'' inches",
+      price: "1,200",
+      mrp: "1,500",
+      badge: "12 Inch Statue",
+      _id: "6abe00274fa9600f854e9145"
     },
     {
-      img: holyFamilyColor,
-      name: "Vaticano Collezione Holy Family Statue (Traditional Colors)",
-      price: "2,690",
-      mrp: "3,500",
-      desc: "Vibrant hand-painted traditional color Holy Family statue depicting Virgin Mary in teal blue & rose tunic, St. Joseph in green cloak, and Child Jesus.",
-      badge: "Top Rated",
-      _id: null
+      img: "https://res.cloudinary.com/dontth6xt/image/upload/v1790842066/qiuaepy4kg8cqympd7n7.jpg",
+      name: "Navy blue glossy finish Chain Rosary",
+      price: "250",
+      mrp: "350",
+      badge: "High Quality Rosary",
+      _id: "6abe14d3d5e5999623b13532"
+    },
+    {
+      img: "https://res.cloudinary.com/dontth6xt/image/upload/v1791272632/updljenhl9jtonnmel6x.jpg",
+      name: "Double side car stand(umbrella type)",
+      price: "300",
+      mrp: "380",
+      badge: "Umbrella Car Stand",
+      _id: "6ac4a6bdd5e5999623b136ec"
     }
   ];
 
@@ -237,6 +240,8 @@ const Home = () => {
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
+          onClick={() => handleProductClick(activeCover)}
+          style={{ cursor: "pointer" }}
         >
           <div className="hero-left-image cover-img-box">
             <img
@@ -261,9 +266,15 @@ const Home = () => {
             </div>
 
             <div className="cover-action-group">
-              <Link to="/products" className="hero-shop-btn">
-                Shop Collection ➔
-              </Link>
+              <button 
+                className="hero-shop-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleProductClick(activeCover);
+                }}
+              >
+                View Product ➔
+              </button>
             </div>
           </div>
         </div>
