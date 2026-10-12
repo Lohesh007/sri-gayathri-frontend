@@ -11,7 +11,17 @@ const Admin = () => {
   const navigate = useNavigate();
 
   const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState({});
+  const [categories, setCategories] = useState({
+    Rosaries: ["chain rosary", "thread rosary", "10 beat rosaries", "wood rosary", "baby rosaries"],
+    Statues: ["ceramic statues", "pop statues", "fibre statues", "radium statues"],
+    Photos: ["wood framed photos", "unframed photos", "golden framed photos"],
+    Cross: ["steel cross", "wooden cross"],
+    Keychain: ["metal keychain", "wooden keychain", "crystal keychain", "photo keychain", "general keychain"],
+    Others: ["car stands", "candle stands", "stickers & badges", "prayer books", "general items"],
+    Lights: ["rosary lights", "candle lights", "light statues", "night lamps", "christmas star lights"],
+    Bangles: ["covering bangles", "glass bangles", "metal bangles"],
+    Chains: ["stainless steel chain", "covering chain", "german chain"],
+  });
   const [subList, setSubList] = useState([]);
 
   const [search, setSearch] = useState("");

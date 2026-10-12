@@ -125,6 +125,8 @@ const Home = () => {
     { name: "Statues", icon: "⛪", desc: "Beautiful ceramic, fibre & POP statues" },
     { name: "Photos", icon: "🖼️", desc: "Framed wall photos & holy pictures" },
     { name: "Cross", icon: "✝", desc: "Altar standing and wall crucifixes" },
+    { name: "Keychain", icon: "🔑", desc: "Devotional keyrings & holy pendants" },
+    { name: "Others", icon: "✨", desc: "Car stands, candle stands & divine gifts" },
   ];
 
   const testimonials = [

@@ -16,13 +16,23 @@ const Products = () => {
   const location = useLocation();
 
   const categories = {
-    Rosaries: ["Chain Rosary", "Thread Rosary", "Wood Rosary", "10 Beads", "Baby Rosaries"],
-    Statues: ["Ceramic Statues", "POP Statues", "Fibre Statues", "Radium Statues"],
-    Photos: ["Wood Frame", "Golden Frame", "Unframed Photos"],
-    Cross: ["Steel Cross", "Wooden Cross"],
-    Lights: ["Rosary Lights", "Candle Lights", "Light Statues", "Night Lamps", "Christmas Star Lights"],
-    Bangles: ["Covering Bangles", "Glass Bangles", "Metal Bangles"],
-    Chains: ["Stainless Steel Chain", "Covering Chain", "German Chain"],
+    Rosaries: ["chain rosary", "thread rosary", "10 beat rosaries", "wood rosary", "baby rosaries"],
+    Statues: ["ceramic statues", "pop statues", "fibre statues", "radium statues"],
+    Photos: ["wood framed photos", "unframed photos", "golden framed photos"],
+    Cross: ["steel cross", "wooden cross"],
+    Keychain: ["metal keychain", "wooden keychain", "crystal keychain", "photo keychain", "general keychain"],
+    Others: ["car stands", "candle stands", "stickers & badges", "prayer books", "general items"],
+    Lights: ["rosary lights", "candle lights", "light statues", "night lamps", "christmas star lights"],
+    Bangles: ["covering bangles", "glass bangles", "metal bangles"],
+    Chains: ["stainless steel chain", "covering chain", "german chain"],
+  };
+
+  const formatLabel = (str) => {
+    if (!str) return "";
+    return str
+      .split(" ")
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(" ");
   };
 
   const shuffleArray = (array) => {
@@ -82,8 +92,22 @@ const Products = () => {
 
   const filteredProducts = products.filter((p) => {
     const matchName = p.name.toLowerCase().includes(search.toLowerCase());
-    const matchCategory = selectedCategory === "All" || p.category === selectedCategory;
-    const matchSub = selectedSub === "" || p.subcategory === selectedSub;
+    const matchCategory =
+      selectedCategory === "All" ||
+      (p.category && (
+        p.category.trim().toLowerCase() === selectedCategory.trim().toLowerCase() ||
+        (selectedCategory.toLowerCase() === "keychain" && p.category.toLowerCase().includes("keychain")) ||
+        (selectedCategory.toLowerCase() === "others" && (p.category.toLowerCase() === "other" || p.category.toLowerCase() === "others"))
+      ));
+
+    const matchSub =
+      selectedSub === "" ||
+      (p.subcategory && (
+        p.subcategory.trim().toLowerCase() === selectedSub.trim().toLowerCase() ||
+        p.subcategory.toLowerCase().replace(/[^a-z0-9]/g, "").includes(selectedSub.toLowerCase().replace(/[^a-z0-9]/g, "")) ||
+        selectedSub.toLowerCase().replace(/[^a-z0-9]/g, "").includes(p.subcategory.toLowerCase().replace(/[^a-z0-9]/g, ""))
+      ));
+
     return matchName && matchCategory && matchSub;
   });
 
@@ -177,7 +201,7 @@ const Products = () => {
                   navigate(`/products?category=${selectedCategory}&subcategory=${sub}`, { replace: true });
                 }}
               >
-                {sub}
+                {formatLabel(sub)}
               </button>
             ))}
           </div>
