@@ -23,6 +23,9 @@ const Navbar = () => {
     (path) => location.pathname.startsWith(path)
   );
 
+  // Hide navbar search on /products page (Products page has its own search bar)
+  const isProductsPage = location.pathname === "/products";
+
   useEffect(() => {
     const loadProducts = async () => {
       try {
@@ -41,9 +44,21 @@ const Navbar = () => {
       setSuggestions([]);
       return;
     }
-    const filtered = allProducts.filter((p) =>
-      p.name.toLowerCase().includes(val.toLowerCase())
-    ).slice(0, 5);
+    const query = val.toLowerCase().trim();
+    const filtered = allProducts
+      .filter((p) => p.name.toLowerCase().includes(query))
+      .sort((a, b) => {
+        const aName = a.name.toLowerCase();
+        const bName = b.name.toLowerCase();
+        // Products starting with the query come first
+        const aStarts = aName.startsWith(query);
+        const bStarts = bName.startsWith(query);
+        if (aStarts && !bStarts) return -1;
+        if (!aStarts && bStarts) return 1;
+        // Then sort alphabetically
+        return aName.localeCompare(bName);
+      })
+      .slice(0, 8);
     setSuggestions(filtered);
   };
 
@@ -72,14 +87,14 @@ const Navbar = () => {
     <>
       <nav className="navbar">
 
-        {/* LOGO + TITLE */}
-        <div className="nav-left">
+        {/* LOGO + TITLE — Clickable, goes to Home */}
+        <div className="nav-left" onClick={() => navigate("/")} style={{ cursor: "pointer" }}>
           <img src={logo} alt="Logo" className="nav-logo" />
           <h2 className="nav-title">Sri Gayathri Fancy & Religious</h2>
         </div>
 
-        {/* SEARCH BAR WITH AUTO-COMPLETE */}
-        {!isAuthPage && (
+        {/* SEARCH BAR — Hidden on /products page to avoid duplicate search bar */}
+        {!isAuthPage && !isProductsPage && (
           <div className="nav-search-container">
             <form onSubmit={handleSearchSubmit} className="nav-search-form" style={{ width: "100%", display: "flex" }}>
               <input

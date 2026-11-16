@@ -90,26 +90,39 @@ const Products = () => {
     return (sum / p.reviews.length).toFixed(1);
   };
 
-  const filteredProducts = products.filter((p) => {
-    const matchName = p.name.toLowerCase().includes(search.toLowerCase());
-    const matchCategory =
-      selectedCategory === "All" ||
-      (p.category && (
-        p.category.trim().toLowerCase() === selectedCategory.trim().toLowerCase() ||
-        (selectedCategory.toLowerCase() === "keychain" && p.category.toLowerCase().includes("keychain")) ||
-        (selectedCategory.toLowerCase() === "others" && (p.category.toLowerCase() === "other" || p.category.toLowerCase() === "others"))
-      ));
+  const filteredProducts = products
+    .filter((p) => {
+      const matchName = p.name.toLowerCase().includes(search.toLowerCase());
+      const matchCategory =
+        selectedCategory === "All" ||
+        (p.category && (
+          p.category.trim().toLowerCase() === selectedCategory.trim().toLowerCase() ||
+          (selectedCategory.toLowerCase() === "keychain" && p.category.toLowerCase().includes("keychain")) ||
+          (selectedCategory.toLowerCase() === "others" && (p.category.toLowerCase() === "other" || p.category.toLowerCase() === "others"))
+        ));
 
-    const matchSub =
-      selectedSub === "" ||
-      (p.subcategory && (
-        p.subcategory.trim().toLowerCase() === selectedSub.trim().toLowerCase() ||
-        p.subcategory.toLowerCase().replace(/[^a-z0-9]/g, "").includes(selectedSub.toLowerCase().replace(/[^a-z0-9]/g, "")) ||
-        selectedSub.toLowerCase().replace(/[^a-z0-9]/g, "").includes(p.subcategory.toLowerCase().replace(/[^a-z0-9]/g, ""))
-      ));
+      const matchSub =
+        selectedSub === "" ||
+        (p.subcategory && (
+          p.subcategory.trim().toLowerCase() === selectedSub.trim().toLowerCase() ||
+          p.subcategory.toLowerCase().replace(/[^a-z0-9]/g, "").includes(selectedSub.toLowerCase().replace(/[^a-z0-9]/g, "")) ||
+          selectedSub.toLowerCase().replace(/[^a-z0-9]/g, "").includes(p.subcategory.toLowerCase().replace(/[^a-z0-9]/g, ""))
+        ));
 
-    return matchName && matchCategory && matchSub;
-  });
+      return matchName && matchCategory && matchSub;
+    })
+    .sort((a, b) => {
+      // When user is searching, sort: starts-with first, then alphabetical
+      if (search.trim()) {
+        const query = search.toLowerCase().trim();
+        const aStarts = a.name.toLowerCase().startsWith(query);
+        const bStarts = b.name.toLowerCase().startsWith(query);
+        if (aStarts && !bStarts) return -1;
+        if (!aStarts && bStarts) return 1;
+        return a.name.localeCompare(b.name);
+      }
+      return 0;
+    });
 
   const sortedProducts = [...filteredProducts].sort((a, b) => {
     if (sortOrder === "price-low") return a.price - b.price;
