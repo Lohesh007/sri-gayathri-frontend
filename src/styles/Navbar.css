@@ -247,7 +247,7 @@
 .ticker-track {
   display: inline-block;
   white-space: nowrap;
-  animation: ticker-marquee 25s linear infinite;
+  animation: ticker-marquee 45s linear infinite;
   padding-left: 100%;
 }
 

@@ -463,3 +463,77 @@
     width: 100%;
   }
 }
+
+/* ============================================
+   PAGINATION CONTROLS
+   ============================================ */
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 32px 0 20px;
+  flex-wrap: wrap;
+}
+
+.page-btn {
+  background: #6a0dad;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.page-btn:hover:not(:disabled) {
+  background: #8b24d4;
+}
+
+.page-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.page-numbers {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.page-num-btn {
+  background: white;
+  color: #6a0dad;
+  border: 2px solid #6a0dad;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.page-num-btn:hover {
+  background: #f0e0ff;
+}
+
+.page-num-btn.active {
+  background: #6a0dad;
+  color: white;
+}
+
+@media (max-width: 480px) {
+  .page-btn {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+  .page-num-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 13px;
+  }
+}

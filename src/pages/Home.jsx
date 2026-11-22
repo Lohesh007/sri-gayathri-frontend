@@ -121,12 +121,12 @@ const Home = () => {
   ];
 
   const categoriesList = [
-    { name: "Rosaries", icon: "📿", desc: "Premium thread, wood & chain rosaries" },
-    { name: "Statues", icon: "⛪", desc: "Beautiful ceramic, fibre & POP statues" },
-    { name: "Photos", icon: "🖼️", desc: "Framed wall photos & holy pictures" },
-    { name: "Cross", icon: "✝", desc: "Altar standing and wall crucifixes" },
-    { name: "Keychain", icon: "🔑", desc: "Devotional keyrings & holy pendants" },
-    { name: "Others", icon: "✨", desc: "Car stands, candle stands & divine gifts" },
+    { name: "Rosaries", icon: "✦", desc: "Premium thread, wood & chain rosaries" },
+    { name: "Statues", icon: "✝", desc: "Beautiful ceramic, fibre & POP statues" },
+    { name: "Photos", icon: "◈", desc: "Framed wall photos & holy pictures" },
+    { name: "Cross", icon: "✚", desc: "Altar standing and wall crucifixes" },
+    { name: "Keychain", icon: "◉", desc: "Devotional keyrings & holy pendants" },
+    { name: "Others", icon: "◆", desc: "Car stands, candle stands & divine gifts" },
   ];
 
   const testimonials = [
@@ -296,7 +296,7 @@ const Home = () => {
 
       {/* SHOP BY CATEGORY (2 COLUMNS ON MOBILE) */}
       <section className="section">
-        <h2 className="section-title">🛍️ Shop By Category</h2>
+        <h2 className="section-title">Shop By Category</h2>
         <div className="category-grid">
           {categoriesList.map((cat, i) => (
             <div
@@ -314,7 +314,7 @@ const Home = () => {
 
       {/* NEW ARRIVALS (2 COLUMNS ON MOBILE) */}
       <section className="section">
-        <h2 className="section-title">🆕 New Arrivals</h2>
+        <h2 className="section-title">New Arrivals</h2>
         <div className="product-grid">
           {(newArrivals.length > 0 ? newArrivals : mockNewArrivals).map((p, i) => (
             <div className="product-card" key={i} onClick={() => handleProductClick(p)}>
@@ -329,7 +329,7 @@ const Home = () => {
 
       {/* FAST SELLING PRODUCTS (2 COLUMNS ON MOBILE) */}
       <section className="section">
-        <h2 className="section-title">🔥 Fast Selling Products</h2>
+        <h2 className="section-title">Fast Selling Products</h2>
         <div className="product-grid">
           {(popularProducts.length > 0 ? popularProducts : mockPopular).map((p, i) => (
             <div className="product-card" key={i} onClick={() => handleProductClick(p)}>
@@ -344,7 +344,7 @@ const Home = () => {
 
       {/* DISCOUNT PRODUCTS */}
       <section className="offer-section">
-        <h2 className="section-title gold-text">🎁 Special Discounts</h2>
+        <h2 className="section-title gold-text">Special Discounts</h2>
         <p className="offer-text">✨ 10% OFF on all Candle Stands this month</p>
         <p className="offer-text">📦 Free Delivery on orders above ₹499</p>
         <Link to="/products" className="discount-shop-btn">
@@ -354,7 +354,7 @@ const Home = () => {
 
       {/* CUSTOMER TESTIMONIALS */}
       <section className="section testimonials-section">
-        <h2 className="section-title text-center">⭐ Customer Testimonials</h2>
+        <h2 className="section-title text-center">Customer Testimonials</h2>
         <div className="testimonials-grid">
           {testimonials.map((t, i) => (
             <div className="testimonial-card" key={i}>
@@ -369,7 +369,7 @@ const Home = () => {
       {/* NEWSLETTER SUBSCRIBE */}
       <section className="newsletter-section">
         <div className="newsletter-box">
-          <h3>📩 Subscribe to our Newsletter</h3>
+          <h3>Subscribe to our Newsletter</h3>
           <p>Get instant updates on new arrivals, local events, and exclusive discount codes!</p>
           <form onSubmit={handleSubscribe} className="newsletter-form">
             <input
@@ -386,7 +386,7 @@ const Home = () => {
 
       {/* BUSINESS DETAILS */}
       <section className="business-section">
-        <h2 className="section-title">📍 About Our Store</h2>
+        <h2 className="section-title">About Our Store</h2>
         <p>
           Sri Gayathri Fancy & Religious is located in
           <span className="gold-text"> Velankanni, Nagapattinam, Tamil Nadu</span>. We specialize in

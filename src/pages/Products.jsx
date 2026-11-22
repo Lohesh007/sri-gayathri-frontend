@@ -11,6 +11,8 @@ const Products = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedSub, setSelectedSub] = useState("");
   const [sortOrder, setSortOrder] = useState("default");
+  const [currentPage, setCurrentPage] = useState(1);
+  const PRODUCTS_PER_PAGE = 20;
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -81,6 +83,7 @@ const Products = () => {
     setSelectedCategory("All");
     setSelectedSub("");
     setSortOrder("default");
+    setCurrentPage(1);
     navigate("/products", { replace: true });
   };
 
@@ -133,8 +136,20 @@ const Products = () => {
       const ratingB = parseFloat(getAvgRating(b)) || 0;
       return ratingB - ratingA;
     }
-    return 0; // default
+    return 0;
   });
+
+  // Pagination logic
+  const totalPages = Math.ceil(sortedProducts.length / PRODUCTS_PER_PAGE);
+  const paginatedProducts = sortedProducts.slice(
+    (currentPage - 1) * PRODUCTS_PER_PAGE,
+    currentPage * PRODUCTS_PER_PAGE
+  );
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const categoryKeys = ["All", ...Object.keys(categories)];
 
@@ -178,7 +193,7 @@ const Products = () => {
               onClick={() => {
                 setSelectedCategory(cat);
                 setSelectedSub("");
-                // Update query string
+                setCurrentPage(1);
                 if (cat === "All") {
                   navigate("/products", { replace: true });
                 } else {
@@ -186,7 +201,7 @@ const Products = () => {
                 }
               }}
             >
-              {cat === "All" ? "🌍 All Items" : cat}
+              {cat === "All" ? "All Items" : cat}
             </button>
           ))}
         </div>
@@ -200,6 +215,7 @@ const Products = () => {
               className={`subcategory-pill ${selectedSub === "" ? "active" : ""}`}
               onClick={() => {
                 setSelectedSub("");
+                setCurrentPage(1);
                 navigate(`/products?category=${selectedCategory}`, { replace: true });
               }}
             >
@@ -211,6 +227,7 @@ const Products = () => {
                 className={`subcategory-pill ${selectedSub === sub ? "active" : ""}`}
                 onClick={() => {
                   setSelectedSub(sub);
+                  setCurrentPage(1);
                   navigate(`/products?category=${selectedCategory}&subcategory=${sub}`, { replace: true });
                 }}
               >
@@ -237,51 +254,90 @@ const Products = () => {
           </button>
         </div>
       ) : (
-        <div className="product-grid">
-          {sortedProducts.map((product) => (
-            <div
-              className="product-card new-card"
-              key={product._id}
-              onClick={() => navigate(`/product/${product._id}`)}
-            >
-              <div className="img-box">
-                <img src={product.image} alt={product.name} />
+        <>
+          {/* PRODUCT COUNT */}
+          <p style={{ color: "#777", fontSize: "14px", marginBottom: "10px", paddingLeft: "4px" }}>
+            Showing {((currentPage - 1) * PRODUCTS_PER_PAGE) + 1}–{Math.min(currentPage * PRODUCTS_PER_PAGE, sortedProducts.length)} of {sortedProducts.length} products
+          </p>
+
+          <div className="product-grid">
+            {paginatedProducts.map((product) => (
+              <div
+                className="product-card new-card"
+                key={product._id}
+                onClick={() => navigate(`/product/${product._id}`)}
+              >
+                <div className="img-box">
+                  <img src={product.image} alt={product.name} />
+                </div>
+
+                <h3 className="p-name">{product.name}</h3>
+
+                {getAvgRating(product) && (
+                  <div className="card-rating">
+                    <span className="star-icon">★</span>
+                    <span className="rating-val">{getAvgRating(product)}</span>
+                    <span className="rating-count">({product.reviews.length})</span>
+                  </div>
+                )}
+
+                <p className="price">
+                  ₹{product.price}
+                  <span className="mrp">₹{product.mrp}</span>
+                </p>
+
+                {product.stock <= 0 ? (
+                  <span className="out-of-stock-badge">Out of Stock</span>
+                ) : product.stock <= 5 ? (
+                  <span className="low-stock-badge">Only {product.stock} left!</span>
+                ) : null}
+
+                <button
+                  className="view-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(`/product/${product._id}`);
+                  }}
+                >
+                  View Details
+                </button>
+              </div>
+            ))}
+          </div>
+
+          {/* PAGINATION CONTROLS */}
+          {totalPages > 1 && (
+            <div className="pagination-controls">
+              <button
+                className="page-btn"
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                ← Previous
+              </button>
+
+              <div className="page-numbers">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                  <button
+                    key={page}
+                    className={`page-num-btn ${currentPage === page ? "active" : ""}`}
+                    onClick={() => handlePageChange(page)}
+                  >
+                    {page}
+                  </button>
+                ))}
               </div>
 
-              <h3 className="p-name">{product.name}</h3>
-
-              {/* RATING OVERLAY ON CARD */}
-              {getAvgRating(product) && (
-                <div className="card-rating">
-                  <span className="star-icon">★</span>
-                  <span className="rating-val">{getAvgRating(product)}</span>
-                  <span className="rating-count">({product.reviews.length})</span>
-                </div>
-              )}
-
-              <p className="price">
-                ₹{product.price}
-                <span className="mrp">₹{product.mrp}</span>
-              </p>
-
-              {product.stock <= 0 ? (
-                <span className="out-of-stock-badge">Out of Stock</span>
-              ) : product.stock <= 5 ? (
-                <span className="low-stock-badge">Only {product.stock} left!</span>
-              ) : null}
-
               <button
-                className="view-btn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  navigate(`/product/${product._id}`);
-                }}
+                className="page-btn"
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
               >
-                View Details
+                Next →
               </button>
             </div>
-          ))}
-        </div>
+          )}
+        </>
       )}
     </div>
   );
