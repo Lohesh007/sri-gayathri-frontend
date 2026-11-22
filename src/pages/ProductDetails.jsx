@@ -303,7 +303,7 @@ const ProductDetails = () => {
           {/* Stock Status Badge */}
           {p.stock <= 0 ? (
             <div className="stock-status out-of-stock">
-              <span className="red-badge">❌ Out of Stock</span>
+              <span className="red-badge">Out of Stock</span>
             </div>
           ) : (
             <div className="stock-status in-stock">
@@ -314,19 +314,19 @@ const ProductDetails = () => {
           {/* Amazon/Flipkart Trust Features */}
           <div className="trust-features-bar">
             <div className="trust-item">
-              <span className="trust-icon">🚚</span>
+              <span className="trust-icon">&#128666;</span>
               <span className="trust-label">Fast Shipping</span>
             </div>
             <div className="trust-item">
-              <span className="trust-icon">🛡️</span>
+              <span className="trust-icon">&#10003;</span>
               <span className="trust-label">100% Genuine</span>
             </div>
             <div className="trust-item">
-              <span className="trust-icon">💳</span>
+              <span className="trust-icon">&#128274;</span>
               <span className="trust-label">Secure Payment</span>
             </div>
             <div className="trust-item">
-              <span className="trust-icon">💬</span>
+              <span className="trust-icon">&#9993;</span>
               <span className="trust-label">WhatsApp Help</span>
             </div>
           </div>
@@ -340,7 +340,7 @@ const ProductDetails = () => {
           {/* ADD TO CART ACTION BLOCK (Desktop / Main view) */}
           {user?.isAdmin ? (
             <div className="admin-order-notice">
-              🛡 Ordering is disabled for administrative accounts.
+              Admin access — ordering is disabled.
             </div>
           ) : (
             <div className="cart-action-block">
@@ -368,7 +368,7 @@ const ProductDetails = () => {
               )}
 
               <button className="btn-cart" onClick={addToCart} disabled={p.stock <= 0}>
-                {p.stock <= 0 ? "Out of Stock" : "🛒 Add to Cart"}
+                {p.stock <= 0 ? "Out of Stock" : "Add to Cart"}
               </button>
             </div>
           )}
@@ -385,7 +385,7 @@ const ProductDetails = () => {
                   )
                 }
               >
-                📱 WhatsApp
+                WhatsApp
               </button>
 
               <button
@@ -394,14 +394,14 @@ const ProductDetails = () => {
                   window.open("https://www.instagram.com/sri_gayathri_religious")
                 }
               >
-                📸 Instagram
+                Instagram
               </button>
 
               <button
                 className="contact-btn call"
                 onClick={() => (window.location.href = "tel:+919597580853")}
               >
-                📞 Call Us
+                Call Us
               </button>
             </div>
           </div>
@@ -469,7 +469,7 @@ const ProductDetails = () => {
             <button type="submit" className="submit-review-btn">Submit Review</button>
           </form>
         ) : user?.isAdmin ? (
-          <p className="admin-review-block">🛡 Administrative accounts cannot write reviews.</p>
+          <p className="admin-review-block">Administrative accounts cannot write reviews.</p>
         ) : (
           <p className="login-review-prompt">
             Please <Link to="/login">login</Link> to write a review.
@@ -481,7 +481,7 @@ const ProductDetails = () => {
       {similarProducts.length > 0 && (
         <div className="similar-products-section">
           <div className="similar-header">
-            <h2 className="similar-title">✨ Similar Products You May Like</h2>
+            <h2 className="similar-title">Similar Products You May Like</h2>
             <span className="similar-subtitle">Based on {p.category}</span>
           </div>
 
@@ -545,7 +545,7 @@ const ProductDetails = () => {
             <span className="sticky-qty-text">({qty} item{qty > 1 ? "s" : ""})</span>
           </div>
           <button className="sticky-cart-btn" onClick={addToCart}>
-            🛒 Add to Cart
+            Add to Cart
           </button>
         </div>
       )}

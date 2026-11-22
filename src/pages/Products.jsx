@@ -246,7 +246,7 @@ const Products = () => {
         </div>
       ) : sortedProducts.length === 0 ? (
         <div className="empty-catalog-box animate-pop">
-          <div className="empty-icon">🔍</div>
+          <div className="empty-icon">&#128269;</div>
           <h3>No Products Found</h3>
           <p>We couldn't find any products matching your search or filters.</p>
           <button className="clear-filters-btn" onClick={clearFilters}>

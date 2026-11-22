@@ -155,7 +155,7 @@ export default function AdminOrders() {
                     <div className="small">{o.address}</div>
                     {o.deliveryInstructions && (
                       <div className="admin-order-instruction-box">
-                        📝 <i>"{o.deliveryInstructions}"</i>
+                        <i>"{o.deliveryInstructions}"</i>
                       </div>
                     )}
                   </td>

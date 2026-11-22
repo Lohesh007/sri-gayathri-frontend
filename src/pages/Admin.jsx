@@ -336,7 +336,7 @@ const Admin = () => {
 
         {/* LEFT: ADD / EDIT PRODUCT FORM */}
         <div className="admin-form-box">
-          <h2 className="form-box-title">{editMode ? "✏️ Edit Product Details" : "🆕 Add New Product"}</h2>
+          <h2 className="form-box-title">{editMode ? "Edit Product Details" : "Add New Product"}</h2>
 
           <div className="admin-form-field">
             <label className="admin-field-label">Product Name</label>
@@ -449,11 +449,11 @@ const Admin = () => {
           <div className="admin-form-actions">
             {editMode ? (
               <button className="btn purple" onClick={handleUpdate} disabled={submitting}>
-                {submitting ? "Uploading & Saving..." : "💾 Save Changes"}
+                {submitting ? "Uploading & Saving..." : "Save Changes"}
               </button>
             ) : (
               <button className="btn purple" onClick={handleAdd} disabled={submitting}>
-                {submitting ? "Uploading & Adding..." : "➕ Add Product"}
+                {submitting ? "Uploading & Adding..." : "Add Product"}
               </button>
             )}
 
@@ -511,10 +511,10 @@ const Admin = () => {
 
                 <div className="actions">
                   <button className="btn small purple" onClick={() => editProduct(p)} disabled={submitting}>
-                    ✏️ Edit
+                    Edit
                   </button>
                   <button className="btn small red" onClick={() => deleteProduct(p._id)} disabled={submitting}>
-                    🗑️ Delete
+                    Delete
                   </button>
                 </div>
               </div>

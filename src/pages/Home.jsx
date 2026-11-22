@@ -345,8 +345,8 @@ const Home = () => {
       {/* DISCOUNT PRODUCTS */}
       <section className="offer-section">
         <h2 className="section-title gold-text">Special Discounts</h2>
-        <p className="offer-text">✨ 10% OFF on all Candle Stands this month</p>
-        <p className="offer-text">📦 Free Delivery on orders above ₹499</p>
+        <p className="offer-text">10% OFF on all Candle Stands this month</p>
+        <p className="offer-text">Free Delivery on orders above &#8377;499</p>
         <Link to="/products" className="discount-shop-btn">
           View Discount Items
         </Link>
@@ -410,10 +410,10 @@ const Home = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            📱 WhatsApp
+            WhatsApp
           </a>
           <a href="tel:+919597580853" className="contact-btn call">
-            📞 Call Us
+            Call Us
           </a>
           <a
             href="https://www.instagram.com/sri_gayathri_religious"
@@ -421,7 +421,7 @@ const Home = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            📸 Instagram
+            Instagram
           </a>
         </div>
       </section>

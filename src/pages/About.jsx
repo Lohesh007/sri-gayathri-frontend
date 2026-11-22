@@ -6,17 +6,17 @@ import "../styles/AboutContact.css";
 const About = () => {
   const brandPillars = [
     {
-      icon: "📍",
+      icon: "◎",
       title: "Roots in Velankanni",
       desc: "Proudly operating from the holy town of Velankanni, Tamil Nadu, supplying blessed religious items."
     },
     {
-      icon: "✨",
+      icon: "✦",
       title: "Handpicked Quality",
       desc: "Every statue, rosary, and crucifix is hand-inspected to guarantee top-tier materials and premium finish."
     },
     {
-      icon: "📦",
+      icon: "▣",
       title: "Reliable Shipping",
       desc: "We package all items with high-security protective layers so they arrive safely at your doorstep."
     }
@@ -24,21 +24,21 @@ const About = () => {
 
   const purchaseChannels = [
     {
-      icon: "💬",
+      icon: "◈",
       title: "WhatsApp Direct",
       desc: "Instantly chat with us to check live stock, inquire about bulk orders, or place a quick order.",
       actionText: "Chat on WhatsApp",
       link: "https://wa.me/919842004217?text=Hi!%20I%20want%20to%20know%20more%20about%20your%20religious%20items."
     },
     {
-      icon: "📞",
+      icon: "◉",
       title: "Direct Phone Call",
       desc: "Call our customer service line directly for immediate assistance, payment support, or store location queries.",
       actionText: "Call Us Now",
       link: "tel:+919597580853"
     },
     {
-      icon: "📸",
+      icon: "◆",
       title: "Instagram Page",
       desc: "Follow us to browse new arrivals, view customer reviews, and check product demos via DMs.",
       actionText: "Follow on Instagram",
@@ -63,7 +63,7 @@ const About = () => {
         
         {/* MISSION STATEMENT */}
         <section className="about-card mission-section">
-          <h2 className="about-section-title">✨ Our Mission & Story</h2>
+          <h2 className="about-section-title">Our Mission &amp; Story</h2>
           <p>
             For years, <strong>Sri Gayathri Fancy & Religious</strong> has been a trusted supplier of religious articles 
             in Velankanni, Tamil Nadu. Our mission is to bridge the gap between devotion and quality. By combining our 
@@ -78,7 +78,7 @@ const About = () => {
 
         {/* CORE VALUES / BRAND PILLARS */}
         <section className="about-pillars-section">
-          <h2 className="about-section-title text-center">🛡️ Why Choose Sri Gayathri?</h2>
+          <h2 className="about-section-title text-center">Why Choose Sri Gayathri?</h2>
           <div className="about-pillars-grid">
             {brandPillars.map((pillar, i) => (
               <div className="about-pillar-card" key={i}>
@@ -92,28 +92,28 @@ const About = () => {
 
         {/* WHAT WE OFFER (PRODUCT CATEGORIES HIGHLIGHT) */}
         <section className="about-card offer-details-section">
-          <h2 className="about-section-title">⛪ Blessed Devotional Collections</h2>
+          <h2 className="about-section-title">Blessed Devotional Collections</h2>
           <p>We take pride in hosting a diverse collection of premium Catholic devotional items, including:</p>
           <div className="collections-bullet-grid">
             <div className="bullet-col">
-              <p>📿 <strong>Rosaries:</strong> Wooden, glass, glowing, and steel chain rosaries.</p>
-              <p>🕯️ <strong>Candle Stands:</strong> Brass, metal, ceramic stands, and altar crosses.</p>
+              <p>&#10022; <strong>Rosaries:</strong> Wooden, glass, glowing, and steel chain rosaries.</p>
+              <p>&#8226; <strong>Candle Stands:</strong> Brass, metal, ceramic stands, and altar crosses.</p>
             </div>
             <div className="bullet-col">
-              <p>🗿 <strong>Statues:</strong> Fiber, ceramic, radium, and Plaster of Paris holy figures.</p>
-              <p>🖼️ <strong>Framed Photos:</strong> Golden border and wooden frames of saints and holy scenes.</p>
+              <p>&#10022; <strong>Statues:</strong> Fiber, ceramic, radium, and Plaster of Paris holy figures.</p>
+              <p>&#10022; <strong>Framed Photos:</strong> Golden border and wooden frames of saints and holy scenes.</p>
             </div>
           </div>
           <div className="about-explore-row">
             <Link to="/products" className="about-explore-btn">
-              🛍️ Explore Our Full Catalog
+              Explore Our Full Catalog
             </Link>
           </div>
         </section>
 
         {/* PURCHASE & CONTACT CHANNELS */}
         <section className="about-purchase-section">
-          <h2 className="about-section-title text-center">📞 Quick Support & Ordering</h2>
+          <h2 className="about-section-title text-center">Quick Support &amp; Ordering</h2>
           <p className="purchase-subtitle text-center">
             Prefer not to order through the website? You can place direct orders or request bulk discounts via any of these channels:
           </p>

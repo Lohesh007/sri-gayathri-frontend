@@ -116,15 +116,15 @@ const Profile = () => {
             </div>
             <h3>{profile.username}</h3>
             <span className="user-role-badge">
-              {profile.isAdmin ? "🛡️ Administrator" : "🛒 Verified Customer"}
+              {profile.isAdmin ? "Administrator" : "Verified Customer"}
             </span>
           </div>
 
           <nav className="sidebar-nav">
-            <button className="nav-item active">👤 Account Overview</button>
-            <Link to="/orders" className="nav-item-link">📦 My Orders ({stats.ordersCount})</Link>
-            <Link to="/cart" className="nav-item-link">🛒 My Shopping Cart ({stats.cartItemsCount})</Link>
-            <Link to="/products" className="nav-item-link">🛍️ Browse Shop</Link>
+            <button className="nav-item active">Account Overview</button>
+            <Link to="/orders" className="nav-item-link">My Orders ({stats.ordersCount})</Link>
+            <Link to="/cart" className="nav-item-link">My Shopping Cart ({stats.cartItemsCount})</Link>
+            <Link to="/products" className="nav-item-link">Browse Shop</Link>
           </nav>
         </aside>
 
@@ -134,7 +134,7 @@ const Profile = () => {
           {/* STATS OVERVIEW CARDS */}
           <section className="stats-row">
             <div className="stat-card orders">
-              <div className="stat-icon">📦</div>
+              <div className="stat-icon">&#9634;</div>
               <div className="stat-info">
                 <h3>{stats.ordersCount}</h3>
                 <p>Total Orders Placed</p>
@@ -142,7 +142,7 @@ const Profile = () => {
             </div>
 
             <div className="stat-card cart">
-              <div className="stat-icon">🛒</div>
+              <div className="stat-icon">&#9675;</div>
               <div className="stat-info">
                 <h3>{stats.cartItemsCount}</h3>
                 <p>Items in Your Cart</p>
@@ -150,7 +150,7 @@ const Profile = () => {
             </div>
 
             <div className="stat-card status">
-              <div className="stat-icon">✨</div>
+              <div className="stat-icon">&#10022;</div>
               <div className="stat-info">
                 <h3>Active</h3>
                 <p>Account Standing</p>
@@ -165,9 +165,9 @@ const Profile = () => {
               /* VIEW PROFILE MODE */
               <>
                 <div className="card-header-row">
-                  <h2>👤 Account Information</h2>
+                  <h2>Account Information</h2>
                   <button onClick={() => setEditMode(true)} className="edit-profile-btn">
-                    ✏️ Edit Profile
+                    Edit Profile
                   </button>
                 </div>
 
@@ -209,7 +209,7 @@ const Profile = () => {
               /* EDIT PROFILE MODE */
               <>
                 <div className="card-header-row">
-                  <h2>✏️ Edit Profile Information</h2>
+                  <h2>Edit Profile Information</h2>
                 </div>
 
                 <div className="details-form">
@@ -255,7 +255,7 @@ const Profile = () => {
 
                 <div className="profile-actions-buttons">
                   <button onClick={handleSave} className="action-btn save">
-                    💾 Save Changes
+                    Save Changes
                   </button>
                   <button onClick={() => setEditMode(false)} className="action-btn cancel">
                     Cancel

@@ -185,21 +185,21 @@ const Navbar = () => {
       {/* RUNNING ANNOUNCEMENT TICKER BAR (BELOW NAVBAR) */}
       <div className="announcement-ticker-bar">
         <div className="ticker-track">
-          <span className="ticker-item">🚚 <strong>FREE SHIPPING:</strong> No extra delivery charges on orders above ₹499!</span>
+          <span className="ticker-item"><strong>FREE SHIPPING:</strong> No extra delivery charges on orders above ₹499!</span>
           <span className="ticker-divider">•</span>
-          <span className="ticker-item">📦 <strong>100% SAFE PACKAGING:</strong> Breakage-free protective bubble wrapping guaranteed!</span>
+          <span className="ticker-item"><strong>100% SAFE PACKAGING:</strong> Breakage-free protective bubble wrapping guaranteed!</span>
           <span className="ticker-divider">•</span>
-          <span className="ticker-item">📍 <strong>AUTHENTIC STORE:</strong> Located in Velankanni, Nagapattinam, Tamil Nadu</span>
+          <span className="ticker-item"><strong>AUTHENTIC STORE:</strong> Located in Velankanni, Nagapattinam, Tamil Nadu</span>
           <span className="ticker-divider">•</span>
-          <span className="ticker-item">📱 <strong>BULK ORDERS & CHURCH INQUIRIES:</strong> WhatsApp us at +91 9842004217</span>
+          <span className="ticker-item"><strong>BULK ORDERS &amp; CHURCH INQUIRIES:</strong> WhatsApp us at +91 9842004217</span>
           <span className="ticker-divider">•</span>
-          <span className="ticker-item">🚚 <strong>FREE SHIPPING:</strong> No extra delivery charges on orders above ₹499!</span>
+          <span className="ticker-item"><strong>FREE SHIPPING:</strong> No extra delivery charges on orders above ₹499!</span>
           <span className="ticker-divider">•</span>
-          <span className="ticker-item">📦 <strong>100% SAFE PACKAGING:</strong> Breakage-free protective bubble wrapping guaranteed!</span>
+          <span className="ticker-item"><strong>100% SAFE PACKAGING:</strong> Breakage-free protective bubble wrapping guaranteed!</span>
           <span className="ticker-divider">•</span>
-          <span className="ticker-item">📍 <strong>AUTHENTIC STORE:</strong> Located in Velankanni, Nagapattinam, Tamil Nadu</span>
+          <span className="ticker-item"><strong>AUTHENTIC STORE:</strong> Located in Velankanni, Nagapattinam, Tamil Nadu</span>
           <span className="ticker-divider">•</span>
-          <span className="ticker-item">📱 <strong>BULK ORDERS & CHURCH INQUIRIES:</strong> WhatsApp us at +91 9842004217</span>
+          <span className="ticker-item"><strong>BULK ORDERS &amp; CHURCH INQUIRIES:</strong> WhatsApp us at +91 9842004217</span>
         </div>
       </div>
     </>

@@ -17,9 +17,9 @@ const Footer = () => {
         {/* Contact Section */}
         <div className="footer-section">
           <h3>Contact Us</h3>
-          <p>📞 95975 80853</p>
-          <p>📱 WhatsApp: 98420 04217</p>
-          <p>📸 Instagram: @sri_gayathri_religious</p>
+          <p>Tel: 95975 80853</p>
+          <p>WhatsApp: 98420 04217</p>
+          <p>Instagram: @sri_gayathri_religious</p>
         </div>
 
         {/* Links Section */}
