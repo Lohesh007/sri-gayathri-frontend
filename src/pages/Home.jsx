@@ -121,12 +121,30 @@ const Home = () => {
   ];
 
   const categoriesList = [
-    { name: "Rosaries", icon: "✦", desc: "Premium thread, wood & chain rosaries" },
-    { name: "Statues", icon: "✝", desc: "Beautiful ceramic, fibre & POP statues" },
-    { name: "Photos", icon: "◈", desc: "Framed wall photos & holy pictures" },
-    { name: "Cross", icon: "✚", desc: "Altar standing and wall crucifixes" },
-    { name: "Keychain", icon: "◉", desc: "Devotional keyrings & holy pendants" },
-    { name: "Others", icon: "◆", desc: "Car stands, candle stands & divine gifts" },
+    {
+      name: "Rosaries", icon: "✦", desc: "Premium thread, wood & chain rosaries",
+      img: "https://images.unsplash.com/photo-1565793298595-6a879b1d9492?auto=format&fit=crop&w=600&q=80"
+    },
+    {
+      name: "Statues", icon: "✝", desc: "Beautiful ceramic, fibre & POP statues",
+      img: "https://images.unsplash.com/photo-1548625361-58a9d976879f?auto=format&fit=crop&w=600&q=80"
+    },
+    {
+      name: "Photos", icon: "◈", desc: "Framed wall photos & holy pictures",
+      img: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=600&q=80"
+    },
+    {
+      name: "Cross", icon: "✚", desc: "Altar standing and wall crucifixes",
+      img: "https://images.unsplash.com/photo-1515269729484-65b773eb7d04?auto=format&fit=crop&w=600&q=80"
+    },
+    {
+      name: "Keychain", icon: "◉", desc: "Devotional keyrings & holy pendants",
+      img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&q=80"
+    },
+    {
+      name: "Others", icon: "◆", desc: "Car stands, candle stands & divine gifts",
+      img: "https://images.unsplash.com/photo-1512389098783-66b81f86e199?auto=format&fit=crop&w=600&q=80"
+    },
   ];
 
   const testimonials = [
@@ -304,9 +322,12 @@ const Home = () => {
               key={i}
               onClick={() => navigate(`/products?category=${cat.name}`)}
             >
-              <div className="category-icon">{cat.icon}</div>
-              <h3>{cat.name}</h3>
-              <p>{cat.desc}</p>
+              <div className="category-bg-img" style={{ backgroundImage: `url(${cat.img})` }} />
+              <div className="category-card-content">
+                <div className="category-icon">{cat.icon}</div>
+                <h3>{cat.name}</h3>
+                <p>{cat.desc}</p>
+              </div>
             </div>
           ))}
         </div>

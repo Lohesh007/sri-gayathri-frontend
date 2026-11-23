@@ -24,17 +24,20 @@
 
 .gold-btn {
   padding: 12px 22px;
-  background: #D4AF37;
+  background: linear-gradient(135deg, #b8860b 0%, #D4AF37 50%, #f5cc55 100%);
   color: #30004f;
   border: none;
   border-radius: 30px;
-  font-weight: 700;
+  font-weight: 800;
   cursor: pointer;
   margin-top: 15px;
-  box-shadow: 0 4px 12px rgba(212,175,55,0.4);
+  box-shadow: 0 4px 16px rgba(212,175,55,0.45);
+  transition: all 0.25s ease;
 }
 .gold-btn:hover {
-  background: #b89730;
+  background: linear-gradient(135deg, #c8930a 0%, #e8c040 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 7px 20px rgba(212,175,55,0.6);
 }
 
 /* CART ITEM */

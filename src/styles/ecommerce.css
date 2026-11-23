@@ -270,20 +270,22 @@
 .view-btn {
   margin-top: auto;
   padding: 9px 16px;
-  background: #f3ebfa;
-  color: #5e0099;
+  background: linear-gradient(135deg, #5a0ba0 0%, #8b24d4 50%, #a855f7 100%);
+  color: white;
   font-weight: 700;
-  border: 1px solid #d5c3fa;
+  border: none;
   border-radius: 25px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
   font-size: 13px;
   width: 100%;
+  box-shadow: 0 3px 12px rgba(90, 11, 160, 0.35);
 }
 
 .view-btn:hover {
-  background: #5e0099;
-  color: white;
+  background: linear-gradient(135deg, #7a0dcc 0%, #9b1dcc 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 16px rgba(90, 11, 160, 0.5);
 }
 
 /* EMPTY CATALOG STATE */
@@ -477,19 +479,22 @@
 }
 
 .page-btn {
-  background: #6a0dad;
+  background: linear-gradient(135deg, #5a0ba0 0%, #8b24d4 100%);
   color: white;
   border: none;
-  padding: 10px 20px;
+  padding: 10px 22px;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(90, 11, 160, 0.35);
 }
 
 .page-btn:hover:not(:disabled) {
-  background: #8b24d4;
+  background: linear-gradient(135deg, #7a0dcc 0%, #9b1dcc 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(90, 11, 160, 0.5);
 }
 
 .page-btn:disabled {

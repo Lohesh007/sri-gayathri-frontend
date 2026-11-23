@@ -8,17 +8,20 @@ const About = () => {
     {
       icon: "◎",
       title: "Roots in Velankanni",
-      desc: "Proudly operating from the holy town of Velankanni, Tamil Nadu, supplying blessed religious items."
+      desc: "Proudly operating from the holy town of Velankanni, Tamil Nadu, supplying blessed religious items.",
+      img: "https://images.unsplash.com/photo-1555881400-74d7acaacd8b?auto=format&fit=crop&w=600&q=80"
     },
     {
       icon: "✦",
       title: "Handpicked Quality",
-      desc: "Every statue, rosary, and crucifix is hand-inspected to guarantee top-tier materials and premium finish."
+      desc: "Every statue, rosary, and crucifix is hand-inspected to guarantee top-tier materials and premium finish.",
+      img: "https://images.unsplash.com/photo-1565793298595-6a879b1d9492?auto=format&fit=crop&w=600&q=80"
     },
     {
       icon: "▣",
       title: "Reliable Shipping",
-      desc: "We package all items with high-security protective layers so they arrive safely at your doorstep."
+      desc: "We package all items with high-security protective layers so they arrive safely at your doorstep.",
+      img: "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=600&q=80"
     }
   ];
 
@@ -28,21 +31,24 @@ const About = () => {
       title: "WhatsApp Direct",
       desc: "Instantly chat with us to check live stock, inquire about bulk orders, or place a quick order.",
       actionText: "Chat on WhatsApp",
-      link: "https://wa.me/919842004217?text=Hi!%20I%20want%20to%20know%20more%20about%20your%20religious%20items."
+      link: "https://wa.me/919842004217?text=Hi!%20I%20want%20to%20know%20more%20about%20your%20religious%20items.",
+      img: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=600&q=80"
     },
     {
       icon: "◉",
       title: "Direct Phone Call",
       desc: "Call our customer service line directly for immediate assistance, payment support, or store location queries.",
       actionText: "Call Us Now",
-      link: "tel:+919597580853"
+      link: "tel:+919597580853",
+      img: "https://images.unsplash.com/photo-1534536281715-e28d76689b4d?auto=format&fit=crop&w=600&q=80"
     },
     {
       icon: "◆",
       title: "Instagram Page",
       desc: "Follow us to browse new arrivals, view customer reviews, and check product demos via DMs.",
       actionText: "Follow on Instagram",
-      link: "https://www.instagram.com/sri_gayathri_religious"
+      link: "https://www.instagram.com/sri_gayathri_religious",
+      img: "https://images.unsplash.com/photo-1611162616475-46b635cb6868?auto=format&fit=crop&w=600&q=80"
     }
   ];
 
@@ -82,9 +88,12 @@ const About = () => {
           <div className="about-pillars-grid">
             {brandPillars.map((pillar, i) => (
               <div className="about-pillar-card" key={i}>
-                <div className="pillar-icon">{pillar.icon}</div>
-                <h3>{pillar.title}</h3>
-                <p>{pillar.desc}</p>
+                <div className="about-card-bg-img" style={{ backgroundImage: `url(${pillar.img})` }} />
+                <div className="about-card-content">
+                  <div className="pillar-icon">{pillar.icon}</div>
+                  <h3>{pillar.title}</h3>
+                  <p>{pillar.desc}</p>
+                </div>
               </div>
             ))}
           </div>
@@ -121,12 +130,15 @@ const About = () => {
           <div className="purchase-channels-grid">
             {purchaseChannels.map((chan, i) => (
               <div className="purchase-channel-card" key={i}>
-                <div className="channel-icon">{chan.icon}</div>
-                <h3>{chan.title}</h3>
-                <p>{chan.desc}</p>
-                <a href={chan.link} className="channel-action-btn" target="_blank" rel="noopener noreferrer">
-                  {chan.actionText}
-                </a>
+                <div className="about-card-bg-img" style={{ backgroundImage: `url(${chan.img})` }} />
+                <div className="about-card-content">
+                  <div className="channel-icon">{chan.icon}</div>
+                  <h3>{chan.title}</h3>
+                  <p>{chan.desc}</p>
+                  <a href={chan.link} className="channel-action-btn" target="_blank" rel="noopener noreferrer">
+                    {chan.actionText}
+                  </a>
+                </div>
               </div>
             ))}
           </div>

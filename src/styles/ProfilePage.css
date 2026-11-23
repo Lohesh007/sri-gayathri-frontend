@@ -194,22 +194,22 @@
 
 /* Edit Trigger Button */
 .edit-profile-btn {
-  background: #f0e6ff;
-  color: #5e0099;
-  border: 1px solid #c9a9ff;
+  background: linear-gradient(135deg, #5a0ba0 0%, #8b24d4 100%);
+  color: white;
+  border: none;
   padding: 10px 20px;
   border-radius: 30px;
   font-weight: 700;
   font-size: 14.5px;
   cursor: pointer;
   transition: all 0.25s ease;
+  box-shadow: 0 3px 12px rgba(90, 11, 160, 0.35);
 }
 
 .edit-profile-btn:hover {
-  background: #5e0099;
-  color: white;
-  border-color: transparent;
+  background: linear-gradient(135deg, #7a0dcc 0%, #9b1dcc 100%);
   transform: translateY(-2px);
+  box-shadow: 0 5px 18px rgba(90, 11, 160, 0.5);
 }
 
 /* DISPLAY FIELDS GRID */
@@ -334,14 +334,15 @@
 }
 
 .action-btn.save {
-  background: linear-gradient(135deg, #2e7d32, #43a047);
+  background: linear-gradient(135deg, #5a0ba0 0%, #8b24d4 50%, #c026d3 100%);
   color: white;
-  box-shadow: 0 4px 12px rgba(46, 125, 50, 0.2);
+  box-shadow: 0 4px 16px rgba(90, 11, 160, 0.4);
 }
 
 .action-btn.save:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(46, 125, 50, 0.35);
+  box-shadow: 0 7px 22px rgba(90, 11, 160, 0.55);
+  background: linear-gradient(135deg, #7a0dcc 0%, #9b1dcc 100%);
 }
 
 .action-btn.cancel {

@@ -96,11 +96,14 @@
 .about-pillar-card {
   background: white;
   border-radius: 18px;
-  padding: 30px 24px;
+  padding: 0;
   text-align: center;
   box-shadow: 0 6px 18px rgba(94, 0, 153, 0.03);
   border: 1px solid #f0e6ff;
   transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+  min-height: 200px;
 }
 
 .about-pillar-card:hover {
@@ -150,20 +153,21 @@
 }
 
 .about-explore-btn {
-  background: linear-gradient(135deg, #7a14c7, #5e0099);
+  background: linear-gradient(135deg, #5a0ba0 0%, #8b24d4 50%, #a855f7 100%);
   color: white;
   padding: 12px 28px;
   border-radius: 50px;
   font-weight: 700;
   text-decoration: none;
   font-size: 16px;
-  box-shadow: 0 4px 15px rgba(94, 0, 153, 0.2);
+  box-shadow: 0 4px 18px rgba(90, 11, 160, 0.4);
   transition: all 0.25s ease;
 }
 
 .about-explore-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(94, 0, 153, 0.35);
+  box-shadow: 0 7px 24px rgba(90, 11, 160, 0.55);
+  background: linear-gradient(135deg, #7a0dcc 0%, #9b1dcc 100%);
 }
 
 /* ======================================================
@@ -190,13 +194,16 @@
 .purchase-channel-card {
   background: white;
   border-radius: 18px;
-  padding: 24px;
+  padding: 0;
   text-align: center;
   border: 1px solid #f0e6ff;
   box-shadow: 0 6px 18px rgba(94, 0, 153, 0.03);
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+  overflow: hidden;
+  min-height: 230px;
 }
 
 .channel-icon {
@@ -220,14 +227,19 @@
 }
 
 .channel-action-btn {
-  background: #f3e5f5;
-  color: #5e0099;
-  border: 1px solid #c9a9ff;
-  padding: 8px 18px;
+  background: linear-gradient(135deg, #5a0ba0 0%, #8b24d4 100%);
+  color: white;
+  border: none;
+  padding: 10px 22px;
   border-radius: 30px;
   font-weight: 700;
   text-decoration: none;
   font-size: 14px;
+  box-shadow: 0 4px 14px rgba(90, 11, 160, 0.35);
+  transition: all 0.25s ease;
+  position: relative;
+  z-index: 2;
+}
   transition: all 0.25s ease;
 }
 
@@ -373,4 +385,69 @@
     grid-template-columns: 1fr;
     gap: 20px;
   }
+}
+
+/* ============================================
+   SHARED BACKGROUND IMAGE OVERLAY SYSTEM
+   (Used in pillar cards & channel cards)
+   ============================================ */
+.about-card-bg-img {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.45;
+  z-index: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 18px;
+}
+
+.about-pillar-card:hover .about-card-bg-img,
+.purchase-channel-card:hover .about-card-bg-img {
+  opacity: 0.6;
+}
+
+.about-pillar-card::after,
+.purchase-channel-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.3) 0%, rgba(240,225,255,0.5) 100%);
+  z-index: 1;
+  border-radius: 18px;
+}
+
+.about-card-content {
+  position: relative;
+  z-index: 2;
+  padding: 30px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.channel-action-btn:hover {
+  background: linear-gradient(135deg, #7a0dcc 0%, #9b1dcc 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 7px 20px rgba(90, 11, 160, 0.5);
+}
+
+.submit-btn {
+  background: linear-gradient(135deg, #5a0ba0 0%, #7a14c7 50%, #9c27b0 100%);
+  color: white;
+  border: none;
+  padding: 14px;
+  font-size: 17px;
+  font-weight: 700;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(90, 11, 160, 0.4);
+  transition: all 0.25s ease;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 24px rgba(90, 11, 160, 0.55);
+  background: linear-gradient(135deg, #7a0dcc 0%, #9b1dcc 100%);
 }

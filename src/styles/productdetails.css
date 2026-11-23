@@ -419,21 +419,22 @@
 
 .btn-cart {
   padding: 14px 28px;
-  background: linear-gradient(135deg, #D4AF37, #b89630);
-  color: #2c004f;
+  background: linear-gradient(135deg, #5a0ba0 0%, #8b24d4 50%, #c026d3 100%);
+  color: white;
   border: none;
   border-radius: 30px;
   font-size: 16px;
   font-weight: 800;
   cursor: pointer;
   flex: 1;
-  box-shadow: 0 6px 18px rgba(212, 175, 55, 0.4);
+  box-shadow: 0 6px 20px rgba(90, 11, 160, 0.45);
   transition: all 0.25s ease;
 }
 
 .btn-cart:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 8px 22px rgba(212, 175, 55, 0.55);
+  box-shadow: 0 10px 28px rgba(90, 11, 160, 0.6);
+  background: linear-gradient(135deg, #7a0dcc 0%, #9b1dcc 100%);
 }
 
 .btn-cart:disabled {
@@ -482,15 +483,18 @@
 }
 
 .contact-btn.wa {
-  background: #25D366;
+  background: linear-gradient(135deg, #075e54 0%, #128c7e 50%, #25d366 100%);
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.35);
 }
 
 .contact-btn.insta {
-  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  background: linear-gradient(135deg, #405de6 0%, #833ab4 40%, #c13584 70%, #fd1d1d 100%);
+  box-shadow: 0 4px 12px rgba(193, 53, 132, 0.3);
 }
 
 .contact-btn.call {
-  background: #5e0099;
+  background: linear-gradient(135deg, #1a237e 0%, #1976d2 50%, #42a5f5 100%);
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.35);
 }
 
 /* Admin notice */
@@ -800,20 +804,22 @@
 .similar-view-btn {
   margin-top: auto;
   padding: 8px;
-  background: #f3ebfa;
-  color: #5e0099;
-  border: 1px solid #d5c3fa;
+  background: linear-gradient(135deg, #5a0ba0 0%, #8b24d4 100%);
+  color: white;
+  border: none;
   border-radius: 12px;
   font-size: 12.5px;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
   width: 100%;
+  box-shadow: 0 3px 10px rgba(90, 11, 160, 0.3);
 }
 
 .similar-view-btn:hover {
-  background: #5e0099;
-  color: white;
+  background: linear-gradient(135deg, #7a0dcc 0%, #9b1dcc 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 14px rgba(90, 11, 160, 0.45);
 }
 
 /* ======================================================
@@ -933,13 +939,13 @@
 
   .sticky-cart-btn {
     padding: 12px 24px;
-    background: linear-gradient(135deg, #D4AF37, #b89630);
-    color: #2c004f;
+    background: linear-gradient(135deg, #5a0ba0 0%, #8b24d4 50%, #c026d3 100%);
+    color: white;
     border: none;
     border-radius: 25px;
     font-size: 15px;
     font-weight: 800;
     cursor: pointer;
-    box-shadow: 0 4px 14px rgba(212, 175, 55, 0.45);
+    box-shadow: 0 4px 16px rgba(90, 11, 160, 0.45);
   }
 }
