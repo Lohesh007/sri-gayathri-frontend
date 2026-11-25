@@ -132,6 +132,14 @@ const Admin = () => {
       showAlert({ title: "Validation Error", message: "Please select a primary product image file to upload", type: "error" });
       return false;
     }
+    if (imageFile && (!["image/jpeg", "image/png", "image/webp"].includes(imageFile.type) || imageFile.size > 5 * 1024 * 1024)) {
+      showAlert({ title: "Image Validation", message: "Choose a JPG, PNG or WebP image smaller than 5 MB.", type: "error" });
+      return false;
+    }
+    if (form.image && !/^https:\/\//i.test(form.image) && !form.image.startsWith("data:image/")) {
+      showAlert({ title: "Image Validation", message: "Primary image must be a valid HTTPS image URL.", type: "error" });
+      return false;
+    }
     return true;
   };
 
@@ -158,10 +166,10 @@ const Admin = () => {
 
       const uploaded = await res.json();
       if (uploaded.secure_url) return uploaded.secure_url;
-      return await fileToBase64(file);
+      throw new Error("Image upload failed. Please retry after checking Cloudinary upload settings.");
     } catch (err) {
       console.error("Cloudinary upload fallback to Base64:", err);
-      return await fileToBase64(file);
+      throw new Error("Image upload failed. Please retry after checking Cloudinary upload settings.");
     }
   };
 
