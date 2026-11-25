@@ -2,7 +2,7 @@ const nodemailer = require("nodemailer");
 
 exports.handler = async (event) => {
   const headers = {
-    "Access-Control-Allow-Origin": "https://sri-gayathri-fancy-religious.netlify.app",
+    "Access-Control-Allow-Origin": event.headers?.origin === "https://www.srigayathrireligious.com" || event.headers?.origin === "https://srigayathrireligious.com" ? event.headers.origin : "https://sri-gayathri-fancy-religious.netlify.app",
     "Access-Control-Allow-Headers": "Content-Type",
     "Access-Control-Allow-Methods": "POST, OPTIONS",
   };
