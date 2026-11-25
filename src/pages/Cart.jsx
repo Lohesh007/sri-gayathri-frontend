@@ -15,7 +15,7 @@ const Cart = () => {
   const [deliveryInstructions, setDeliveryInstructions] = useState("");
 
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token") || sessionStorage.getItem("token");
   const { setCartCount } = useContext(AuthContext);
   const { showAlert, showConfirm } = useContext(ModalContext);
 
