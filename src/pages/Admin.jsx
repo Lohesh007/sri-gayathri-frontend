@@ -132,16 +132,15 @@ const Admin = () => {
       showAlert({ title: "Validation Error", message: "Please select a primary product image file to upload", type: "error" });
       return false;
     }
+    if (imageFile && (!["image/jpeg", "image/png", "image/webp"].includes(imageFile.type) || imageFile.size > 5 * 1024 * 1024)) {
+      showAlert({ title: "Image Validation", message: "Choose a JPG, PNG or WebP image smaller than 5 MB.", type: "error" });
+      return false;
+    }
+    if (form.image && !/^https:\/\//i.test(form.image) && !form.image.startsWith("data:image/")) {
+      showAlert({ title: "Image Validation", message: "Primary image must be a valid HTTPS image URL.", type: "error" });
+      return false;
+    }
     return true;
-  };
-
-  const fileToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
   };
 
   const uploadSingleFile = async (file) => {
@@ -158,10 +157,10 @@ const Admin = () => {
 
       const uploaded = await res.json();
       if (uploaded.secure_url) return uploaded.secure_url;
-      return await fileToBase64(file);
+      throw new Error("Image upload failed. Please retry after checking Cloudinary upload settings.");
     } catch (err) {
       console.error("Cloudinary upload fallback to Base64:", err);
-      return await fileToBase64(file);
+      throw new Error("Image upload failed. Please retry after checking Cloudinary upload settings.");
     }
   };
 
@@ -420,7 +419,7 @@ const Admin = () => {
 
           <div className="admin-form-field file-upload-field">
             <label className="admin-field-label">Main Product Image File</label>
-            <input type="file" onChange={(e) => setImageFile(e.target.files[0])} className="file-input" />
+            <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setImageFile(e.target.files[0])} className="file-input" />
             <span className="file-help-text">JPG, JPEG or PNG formats supported.</span>
           </div>
 
