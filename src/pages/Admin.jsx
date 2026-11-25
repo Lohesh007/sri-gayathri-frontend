@@ -200,10 +200,16 @@ const Admin = () => {
         return;
       }
 
-      const finalForm = { 
-        ...form, 
+      const finalForm = {
+        name: form.name,
+        category: form.category,
+        subcategory: form.subcategory,
         image: primaryUrl,
-        images: Array.from(new Set([primaryUrl, ...extraUrls]))
+        images: Array.from(new Set([primaryUrl, ...extraUrls])),
+        mrp: Number(form.mrp),
+        price: Number(form.price),
+        stock: Number(form.stock),
+        description: form.description || "",
       };
       await API.post("/products/add", finalForm);
 
@@ -242,10 +248,16 @@ const Admin = () => {
     try {
       setSubmitting(true);
       const { primaryUrl, extraUrls } = await uploadAllImages();
-      const finalForm = { 
-        ...form, 
+      const finalForm = {
+        name: form.name,
+        category: form.category,
+        subcategory: form.subcategory,
         image: primaryUrl || form.image,
-        images: Array.from(new Set([primaryUrl || form.image, ...extraUrls]))
+        images: Array.from(new Set([primaryUrl || form.image, ...extraUrls])),
+        mrp: Number(form.mrp),
+        price: Number(form.price),
+        stock: Number(form.stock),
+        description: form.description || "",
       };
 
       await API.put(`/products/${editId}`, finalForm);
