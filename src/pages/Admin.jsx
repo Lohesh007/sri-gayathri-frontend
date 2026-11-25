@@ -419,7 +419,7 @@ const Admin = () => {
 
           <div className="admin-form-field file-upload-field">
             <label className="admin-field-label">Main Product Image File</label>
-            <input type="file" onChange={(e) => setImageFile(e.target.files[0])} className="file-input" />
+            <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setImageFile(e.target.files[0])} className="file-input" />
             <span className="file-help-text">JPG, JPEG or PNG formats supported.</span>
           </div>
 
