@@ -6,7 +6,7 @@ import "../styles/ecommerce.css";
 import "../styles/orders.css";
 
 const Orders = () => {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token") || sessionStorage.getItem("token");
   const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
   const { showAlert, showConfirm } = useContext(ModalContext);
